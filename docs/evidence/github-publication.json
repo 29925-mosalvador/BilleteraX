@@ -1,0 +1,59 @@
+{
+  "date_utc": "2026-10-25T02:12:45.556176+00:00",
+  "status": "passed",
+  "repository": "https://github.com/29925-mosalvador/BilleteraX",
+  "visibility": "public",
+  "release": "https://github.com/29925-mosalvador/BilleteraX/releases/tag/v1.1.0",
+  "tag": "v1.1.0",
+  "source_commit_tested": "322cdd743ffe5894805da40c70a9ac1aa81fef1b",
+  "actions": "https://github.com/29925-mosalvador/BilleteraX/actions/runs/40153217533",
+  "jobs": [
+    {
+      "name": "Android - APK, pruebas unitarias y lint",
+      "status": "completed",
+      "conclusion": "success",
+      "active_step": null,
+      "failed_step": null
+    },
+    {
+      "name": "Backend Java 21",
+      "status": "completed",
+      "conclusion": "success",
+      "active_step": null,
+      "failed_step": null
+    }
+  ],
+  "assets": [
+    {
+      "name": "BilleteraX-1.1.0.apk",
+      "size": 19508294,
+      "sha256": "a6e0cee82b4b45babbc8ae0ceeb182f2e7aaad341c18228c5596191cdf34404b",
+      "url": "https://github.com/29925-mosalvador/BilleteraX/releases/download/v1.1.0/BilleteraX-1.1.0.apk"
+    },
+    {
+      "name": "billeterax-1.1.0.jar",
+      "size": 59334799,
+      "sha256": "29c87b1fac278986eee8cda9dab79a1a31a49926140f1f295de377b31189ce21",
+      "url": "https://github.com/29925-mosalvador/BilleteraX/releases/download/v1.1.0/billeterax-1.1.0.jar"
+    },
+    {
+      "name": "INSTRUCCIONES.md",
+      "size": 4492,
+      "sha256": "9226705af699311e28b48e58fa5d1d516874d95c4e8a2db1a998a9de9338af4c",
+      "url": "https://github.com/29925-mosalvador/BilleteraX/releases/download/v1.1.0/INSTRUCCIONES.md"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "size": 260,
+      "sha256": "93634067059c46fabda1cdd589b31adc9b96d85a4da16743515fb9efbf636778",
+      "url": "https://github.com/29925-mosalvador/BilleteraX/releases/download/v1.1.0/SHA256SUMS.txt"
+    }
+  ],
+  "checks": {
+    "public_source_available": true,
+    "actions_backend_and_android_passed": true,
+    "all_release_assets_uploaded_and_hashes_match": true,
+    "real_databases_and_private_keys_excluded": true
+  },
+  "scope": "GitHub stores code, builds/tests and distributes APK/JAR. Android runs the app; Debian runs Spring Boot and H2."
+}
