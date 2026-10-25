@@ -2,7 +2,11 @@
 
 ## Estado de esta ampliación
 
-El código del auxiliar público y del agente Debian está implementado y probado en un entorno local con dos procesos Java reales. **Todavía falta aprovisionar Render, instalar este JAR en Debian y fijar la dirección pública en los clientes.** No se anuncia un nuevo enlace operativo hasta completar esas comprobaciones. El servicio Debian existente y su base de datos no fueron modificados durante estas pruebas.
+El auxiliar público ya se creó en Render Free y responde en **https://billeterax-access.onrender.com/**. HTTPS, página, configuración automática, CORS de Pages y rechazo de acceso sin Debian están comprobados en `public-access-host.json`. El código y la integración real de dos procesos Java también aprobaron en GitHub Actions.
+
+Debian ya fue actualizado y su agente está conectado automáticamente. El instalador aprobó HTTPS/WSS con las mismas cuentas, conservación de la base y rechazo/recuperación del login al detener/iniciar BilleteraX; evidencia `debian-public-upgrade.json`.
+
+La prueba desde Internet aprobó registro/login, cuatro operaciones, idempotencia, transferencia entrante y coincidencia con H2. Se está revisando un detalle del cierre físico WSS tras logout a través de Render; la sesión REST sí queda revocada y la conexión no recibió eventos posteriores en la prueba. No anunciar esta última comprobación como aprobada hasta resolverla. Los valores fijos de Pages y Android 1.2.0 ya están preparados; falta la publicación final del APK y revisión de interfaz.
 
 ## Funcionamiento
 
@@ -29,11 +33,11 @@ La disponibilidad del principal se comprueba con mensajes periódicos: tras unos
 ## Aprovisionar una vez
 
 1. Conectar Render con la cuenta del propietario. Crear el servicio desde `render.yaml`, plan **free**, Dockerfile `gateway/Dockerfile`, contexto raíz. No se necesita una base Render ni un disco persistente. No seleccionar planes de pago.
-2. Conservar la dirección HTTPS fija asignada al servicio. El Blueprint genera `GATEWAY_AGENT_TOKEN`, una clave privada para el agente, distinta de las contraseñas de los usuarios. No publicarla en GitHub ni enviarla por chat.
+2. La dirección asignada es `https://billeterax-access.onrender.com`. En el panel manual se necesita una clave de al menos 32 caracteres; generar 64 en la propia terminal con `python -c "import secrets; print(secrets.token_urlsafe(48))"` y guardarla personalmente en Environment → GATEWAY_AGENT_TOKEN. La política del navegador exige que el usuario introduzca y guarde los cambios de credenciales. Conservar la dirección HTTPS fija asignada al servicio. El Blueprint genera `GATEWAY_AGENT_TOKEN`, una clave privada para el agente, distinta de las contraseñas de los usuarios. No publicarla en GitHub ni enviarla por chat.
 3. Compilar el backend actual y ejecutar el instalador en PowerShell:
 
 ```powershell
-& 'C:\Users\matsa\AppData\Local\Programs\Python\Python312\python.exe' 'C:\Proyectos\BilleteraX\deployment\scripts\deploy-debian.py' --skip-packages --gateway-url 'https://DIRECCION-ASIGNADA-POR-RENDER'
+& 'C:\Users\matsa\AppData\Local\Programs\Python\Python312\python.exe' 'C:\Proyectos\BilleteraX\deployment\scripts\deploy-debian.py' --skip-packages --gateway-url 'https://billeterax-access.onrender.com'
 ```
 
 Introducir la contraseña SSH y la clave del auxiliar únicamente cuando las solicite la terminal. El instalador transfiere la clave por SFTP, respalda la configuración y conserva las credenciales y la base existentes. La guarda solo donde el servicio la necesita: `/etc/billeterax/billeterax.env`, permisos root:billeterax 0640. Se mantiene `GATEWAY_ENABLED=false` hasta hacer esta configuración; las instalaciones anteriores continúan funcionando por LAN.
@@ -42,7 +46,7 @@ Introducir la contraseña SSH y la clave del auxiliar únicamente cuando las sol
 5. Después de verificar el servicio real, fijar `web/dist/config.js` con `{apiBase:"https://DIRECCION-REAL",managed:true}` y publicar Pages. Ese modo ignora las direcciones antiguas guardadas y los parámetros `servidor`, y oculta el botón de configurar conexión. El visitante solo ve registro/login. La web servida directamente por el auxiliar ya configura su mismo origen automáticamente.
 6. Fijar esa misma dirección HTTPS como valor predeterminado de Android y generar un APK con la firma existente. No desinstalar ni borrar Room. Revisar las operaciones pendientes antes de cambiar una configuración guardada de servidor; no migrarlas silenciosamente a otra URL.
 
-Los pasos 5–6 siguen pendientes mientras no exista una dirección real verificada. No reemplazarla por una dirección inventada.
+Los valores predeterminados de los clientes ya están preparados con la dirección real; comprobar su publicación y uso después de activar Debian. Las configuraciones que Android ya hubiera guardado se conservan: no se cambia la URL de operaciones pendientes de forma automática.
 
 ## Pruebas reproducibles
 

@@ -18,7 +18,7 @@ object Money {
 }
 data class UserProfile(val id: String, val username: String, val displayName: String, val accountId: String)
 enum class Appearance(val label: String) { SYSTEM("Sistema"), LIGHT("Claro"), DARK("Oscuro") }
-data class Config(val url: String = "http://192.168.18.76:8080/", val account: String = "", val token: String = "") {
+data class Config(val url: String = "https://billeterax-access.onrender.com/", val account: String = "", val token: String = "") {
     val scope: String get() = "$url|$account"
 }
 enum class Operation(val title: String, val route: String) {

@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class SocketHub extends TextWebSocketHandler {
+    private static final org.slf4j.Logger log=org.slf4j.LoggerFactory.getLogger(SocketHub.class);
     private final Map<String,WebSocketSession> sessions=new ConcurrentHashMap<>();
     private final Map<String,Instant> revoked=new ConcurrentHashMap<>();
     private final ObjectMapper mapper;
@@ -29,13 +30,18 @@ public class SocketHub extends TextWebSocketHandler {
     }
     @Override public void afterConnectionClosed(WebSocketSession session,CloseStatus status){sessions.remove(session.getId());}
     @Override public void handleTransportError(WebSocketSession session,Throwable error){close(session,CloseStatus.SERVER_ERROR);}
-    private void close(WebSocketSession session,CloseStatus reason){sessions.remove(session.getId());try{session.close(reason);}catch(Exception ignored){}}
+    private void close(WebSocketSession session,CloseStatus reason){
+        sessions.remove(session.getId());
+        try{session.close(reason);log.info("Cierre WebSocket: codigo={}, abierto={}",reason.getCode(),session.isOpen());}
+        catch(Exception error){log.warn("No se pudo cerrar WebSocket: {}",error.getClass().getSimpleName());}
+    }
     void notices(List<JsonNode> notices,boolean reset){
         if(reset)for(var session:sessions.values())close(session,CloseStatus.SERVICE_RESTARTED);
         if(notices==null)return;
         for(var notice:notices)if("REVOKED".equals(notice.path("kind").asText())){
             String hash=notice.path("sessionHash").asText();if(hash.length()!=64)continue;
             revoked.put(hash,Instant.now().plusSeconds(60));
+            log.info("Revocación recibida: conexiones coincidentes={}",sessions.values().stream().filter(s -> hash.equals(s.getAttributes().get("sessionHash"))).count());
             for(var session:sessions.values())if(hash.equals(session.getAttributes().get("sessionHash")))close(session,CloseStatus.POLICY_VIOLATION);
         }
         for(var notice:notices)if("EVENT".equals(notice.path("kind").asText())){

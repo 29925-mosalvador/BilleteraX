@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-25T07:01:36.176106+00:00",
+  "status": "passed",
+  "public_url": "https://billeterax-access.onrender.com",
+  "render_service": "srv-dbeq8qgae00c73e03k50",
+  "render_deploy": "dep-dbeqgmfb9u1s73ak06l0",
+  "source_commit": "7fb292de0fe916fd2d3310d616202e89c4dbbe53",
+  "plan": "free",
+  "checks": {
+    "public_https_health": true,
+    "debian_not_connected_yet": true,
+    "normal_login_config_without_server_prompt": true,
+    "public_web_served": true,
+    "login_refused_without_primary": true,
+    "github_pages_cors": true,
+    "unauthorized_agent_denied": true,
+    "anonymous_account_access_denied": true
+  },
+  "pending": [
+    "Connect existing Debian by running the prepared SSH deployer with the same agent key",
+    "Verify real public registration, operations and WSS",
+    "Publish fixed URL in Pages and Android release"
+  ]
+}

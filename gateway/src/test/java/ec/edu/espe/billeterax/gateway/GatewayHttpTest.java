@@ -53,7 +53,7 @@ class GatewayHttpTest {
         exchange(List.of(new Result(command.id(),200,mapper.valueToTree(Map.of("token","opaque-test-session")))),List.of());
         assertEquals(200,response.get(5,TimeUnit.SECONDS).statusCode());
         var connected=new CompletableFuture<String>();var incoming=new CompletableFuture<String>();var closed=new CompletableFuture<Integer>();
-        var connecting=http.newWebSocketBuilder().header("Origin",ORIGIN).header("Authorization","Bearer opaque-test-session").buildAsync(URI.create("ws://127.0.0.1:"+port+"/ws"),new WebSocket.Listener(){
+        var connecting=http.newWebSocketBuilder().header("Origin",ORIGIN).header("X-Forwarded-Proto","https").header("X-Forwarded-Host","wallet.example").header("Authorization","Bearer opaque-test-session").buildAsync(URI.create("ws://127.0.0.1:"+port+"/ws"),new WebSocket.Listener(){
             public void onOpen(WebSocket socket){socket.request(1);}
             public CompletionStage<?> onText(WebSocket socket,CharSequence text,boolean last){if(text.toString().contains("CONNECTED"))connected.complete(text.toString());else incoming.complete(text.toString());socket.request(1);return null;}
             public CompletionStage<?> onClose(WebSocket socket,int code,String reason){closed.complete(code);return null;}

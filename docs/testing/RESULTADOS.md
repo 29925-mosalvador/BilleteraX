@@ -154,3 +154,6 @@ Corrección publicada y desplegada en Debian: commit 09b0516, Pages aprobado en 
 - Evidencia: `docs/evidence/public-access-local.json`. Reproducible con `deployment/scripts/verify-public-access-local.py`; integrado en CI.
 
 Estas pruebas no actualizaron Debian ni el router y no demuestran todavía un alojamiento público activo o una ejecución de Android en un dispositivo con la nueva URL. La persistencia de Debian pertenece a las evidencias anteriores; no se atribuye a esta H2 en memoria. El APK publicado continúa apuntando a la LAN hasta la configuración pública final.
+
+
+CI Linux del auxiliar y la integración de mensajes aprobó en [40170043362](https://github.com/29925-mosalvador/BilleteraX/actions/runs/40170043362). El servicio público Render ya pasó ocho comprobaciones HTTPS con el principal aún sin conectar; ver `public-access-host.json`. El APK 1.2.0 compiló con firma compatible, dos unitarias aprobadas y lint sin errores (20 avisos); `public-access-build.json` distingue esa compilación de la ejecución en hardware, pendiente por falta de aceleración del emulador. La instalación nueva usa HTTPS público y la actualización conserva el servidor guardado.

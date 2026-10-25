@@ -227,3 +227,27 @@ Pendiente: publicar la implementación; crear/verificar auxiliar público gratui
 Guía actual `docs/ACCESO_INTERNET.md`; `docs/WEB.md` reemplaza el procedimiento con túnel. La herramienta antigua queda solo como historial. Mantener los pendientes académicos previos y el informe APA 7 sin redactar.
 
 Implementación publicada en d7992fc4172244a4e06ab7d1c5e6306a82c99c41; Pages aprobó 40169769154. Se ajustó el verificador para simular una caída inmediata del auxiliar también en Linux (SIGKILL del proceso propio), evitando que el apagado gradual espere la respuesta cuya pérdida se está probando. CI final pendiente. Formulario Render preparado con Dockerfile gateway/Dockerfile, contexto raíz, salud /actuator/health y Free; el usuario debe generar la clave y pulsar Deploy por la política de confirmación del navegador.
+
+
+### Auxiliar real creado y verificado; conexión Debian solicitada
+
+Render Free creado por el usuario desde el formulario preparado, sin permisos adicionales de GitHub (repositorio público). Servicio srv-dbeq8qgae00c73e03k50, URL https://billeterax-access.onrender.com, despliegue exitoso dep-dbeqgmfb9u1s73ak06l0, fuente 7fb292de0fe916fd2d3310d616202e89c4dbbe53. El primer intento compiló pero rechazó una clave insuficiente; el usuario reemplazó el valor y desplegó correctamente. No guardar ni repetir la clave que el usuario escribió en el chat. No se copió a código, reportes ni argumentos.
+
+Ocho comprobaciones HTTPS reales aprobadas: salud, web, modo administrado, CORS, principal todavía desconectado, login rechazado sin él, agente ajeno y acceso anónimo rechazados. Evidencia public-access-host.json. CI Linux 40170043362 aprobó backend, Android y auxiliar con la integración completa de mensajes reales; Pages anterior aprobó 40169769154.
+
+Preparados web/config.js con URL fija para Pages y mismo origen para la web integrada de Debian, y Android 1.2.0/versionCode 3 con HTTPS predeterminado para instalaciones nuevas. Las preferencias existentes se conservan. APK compilado con pruebas unitarias e instrumentación compilada; lint cero errores/20 avisos. Certificado 82dd2604bc2b101f8a038f6db8939d04d5dba055acb565b342221d7fab1ce0fa, idéntico al instalado previamente. APK SHA-256 9bb80cf8365cfcda739b420a6c429a1cfaf7fa8fa761a4cc2dc6772d9c16d7f9. JAR actual 1.2.0 SHA-256 999b3d16bc12f15ff3b7a073e87795eca49b8692439ff8fdae5dc07e2cd3b634. Archivos de Release preparados en .tools/public-gateway/release, aún sin publicar.
+
+El AVD existente no pudo arrancar: el emulador informa falta de aceleración de hipervisor. No se cambiaron características Windows/VirtualBox ni se creó o borró un AVD. No afirmar una nueva ejecución Android en dispositivo: solo compilación/unitarias/lint y protocolo nativo WSS probado a nivel de integración Java. Se cerraron los procesos propios de la prueba local, sin tocar Debian.
+
+Se pidió al usuario ejecutar deploy-debian.py --skip-packages --gateway-url https://billeterax-access.onrender.com, con contraseña SSH y misma clave del auxiliar introducidas solo en su terminal. El instalador ya pasó --check-local. Esperar resultado y verificar evidencia antes de anunciar funcionamiento bancario público. Después probar cuentas/operaciones/WSS reales, publicar la configuración fija de Pages y el APK compatible, actualizar Render desde el commit final y comprobar enlaces. La base primaria sigue siendo /var/lib/billeterax/wallet.mv.db.
+
+
+### Debian conectado; operaciones públicas verificadas; diagnóstico WSS
+
+El usuario confirmó OK del instalador. Se revisó el reporte: JAR 999b3d16bc12f15ff3b7a073e87795eca49b8692439ff8fdae5dc07e2cd3b634, estado passed, cuenta pública idéntica a Debian, CORS/WSS, login rechazado al detener BilleteraX y recuperación automática aprobados. Copia fija `debian-public-upgrade.json`. No pedir otra ejecución de ese despliegue mientras no cambie el backend.
+
+Prueba real por Internet con cuentas nuevas: registro/login, aislamiento, WSS nativo y navegador, pase de un solo uso, depósito/retiro/servicio/transferencia, UUID sin duplicar, rechazo sin alterar saldo, transferencia desde Debian recibida por WSS y snapshot idéntico por LAN/Internet; saldo 18 e historial de cinco movimientos. La prueba final no terminó: tras logout directo, la API devuelve 401 y la conexión no recibe nuevos eventos, pero ni Python ni WebSocket estándar de Node observaron cierre físico en 8–20 s. Guardado como partial en public-access-internet-initial.json. No afirmar que la prueba completa pasó ni publicar todavía el APK como versión final.
+
+Se añadieron logs mínimos al auxiliar (conteos y clase de excepción, nunca hashes/claves/cuentas) para identificar el cierre. El test GatewayHttpTest ahora simula cabeceras HTTPS de un proxy; las seis pruebas del auxiliar volvieron a pasar. Publicar el auxiliar actualizado y desplegarlo desde Render sin cambiar la clave; reproducir revocación y leer sus logs. El usuario ya autorizó el servicio público y el plan Free, no pedir una nueva confirmación por esta actualización de software. Si solo cambia gateway no hace falta reinstalar Debian.
+
+GitHub Releases está abierto en la pestaña 8, sesión del propietario; se pulsó Draft a new release pero no se completó nada. Preparar v1.2.0 con el commit final y los archivos .tools/public-gateway/release cuando estén listas las verificaciones; no repetir ni subir la clave compartida por el usuario.

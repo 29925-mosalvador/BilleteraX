@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-25T07:17:50.443800+00:00",
+  "status": "partial",
+  "public_url": "https://billeterax-access.onrender.com",
+  "passed": [
+    "principal Debian conectado al auxiliar público",
+    "registro y login normal desde Internet",
+    "cuenta pública disponible en el Debian original",
+    "no se consultan cuentas ajenas",
+    "WSS público con cabecera compatible con Android",
+    "WSS público del navegador con pase autenticado",
+    "pase WSS público de un solo uso",
+    "mismo UUID no duplica depósito público",
+    "rechazos no alteran el saldo",
+    "WSS no filtra eventos de otra cuenta",
+    "transferencia desde Debian llega a Internet sin Actualizar",
+    "notificación WSS corresponde al movimiento confirmado en Debian",
+    "saldo e historial públicos coinciden con H2 en Debian",
+    "cuatro operaciones públicas y transferencia entrante correctas"
+  ],
+  "issue": "API session is revoked and no new event was delivered after logout, but the close frame was not observed through Render in Python or Node within the check timeout. Investigating; not reported as a passed closure check.",
+  "environment": "New synthetic accounts only; existing Debian H2; no router changes"
+}

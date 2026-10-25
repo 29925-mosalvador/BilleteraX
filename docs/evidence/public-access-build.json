@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-25T06:58:11.144014+00:00",
+  "version": "1.2.0",
+  "version_code": 3,
+  "apk_sha256": "9bb80cf8365cfcda739b420a6c429a1cfaf7fa8fa761a4cc2dc6772d9c16d7f9",
+  "backend_jar_sha256": "999b3d16bc12f15ff3b7a073e87795eca49b8692439ff8fdae5dc07e2cd3b634",
+  "certificate_sha256": "82dd2604bc2b101f8a038f6db8939d04d5dba055acb565b342221d7fab1ce0fa",
+  "checks": {
+    "backend_tests_passed": 33,
+    "backend_tests_skipped": 1,
+    "gateway_tests_passed": 6,
+    "web_tests_passed": 7,
+    "android_unit_tests_passed": 2,
+    "android_apk_and_instrumentation_apk_compile": true,
+    "android_lint_errors": 0,
+    "android_lint_warnings": 20,
+    "existing_certificate_preserved": true,
+    "linux_ci_with_real_message_integration": "https://github.com/29925-mosalvador/BilleteraX/actions/runs/40170043362"
+  },
+  "limitations": [
+    "This build report does not prove Debian deployment or a public banking session",
+    "Android emulator could not start: Windows hypervisor acceleration unavailable; no Windows virtualization settings changed",
+    "No new execution on a physical phone in this check"
+  ]
+}
