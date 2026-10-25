@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-16",
+  "environment": "Windows; no Debian execution",
+  "backend": {
+    "tests": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "android_unit": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 17
+  },
+  "instrumentation": {
+    "passed": 2,
+    "final_apk_rerun": false,
+    "note": "Executed before final ViewModel and backup changes"
+  },
+  "pending": [
+    "Final APK instrumentation",
+    "Full Android offline/recovery scenario",
+    "Debian/VirtualBox deployment and distributed test",
+    "Sustained profiling",
+    "Academic remote repository publication"
+  ]
+}

@@ -1,0 +1,34 @@
+server:
+  address: ${SERVER_ADDRESS:127.0.0.1}
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: never
+spring:
+  application:
+    name: BilleteraX
+  datasource:
+    url: ${DB_URL:jdbc:h2:file:./data/billeterax;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=10000}
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  h2:
+    console:
+      enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+wallet:
+  token-a: ${WALLET_TOKEN_A:}
+  token-b: ${WALLET_TOKEN_B:}

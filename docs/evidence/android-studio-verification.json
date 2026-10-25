@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-16",
+  "device": "emulator-5554",
+  "avd": "Pixel_10_Pro_XL",
+  "renderer": "SwiftShader (software)",
+  "restart_checks": [
+    {
+      "iteration": 1,
+      "previous_pid": "8162",
+      "new_pid": "8784",
+      "stop_seconds": 0.11,
+      "launch": "Starting: Intent { cmp=ec.edu.espe.billeterax/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: ec.edu.espe.billeterax/.MainActivity\nTotalTime: 1497\nWaitTime: 1498\nComplete"
+    },
+    {
+      "iteration": 2,
+      "previous_pid": "8784",
+      "new_pid": "8847",
+      "stop_seconds": 0.203,
+      "launch": "Starting: Intent { cmp=ec.edu.espe.billeterax/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: ec.edu.espe.billeterax/.MainActivity\nTotalTime: 1554\nWaitTime: 1611\nComplete"
+    }
+  ],
+  "ui_balance": "100.00",
+  "websocket": "En línea",
+  "app_crash_in_observed_log": false,
+  "data_cleared": false,
+  "note": "Validated through ADB; Android Studio Run button not automated"
+}

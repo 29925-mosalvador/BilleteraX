@@ -1,0 +1,14 @@
+[
+  {
+    "Script": "build.ps1",
+    "Errors": 0
+  },
+  {
+    "Script": "check-network.ps1",
+    "Errors": 0
+  },
+  {
+    "Script": "start-local.ps1",
+    "Errors": 0
+  }
+]

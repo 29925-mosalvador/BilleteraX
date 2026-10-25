@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ec.edu.espe.billeterax.UserAuthenticationTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-10-25T01:19:04.470Z" hostname="MAT" time="1.809">
+  <properties/>
+  <testcase name="usersCanTransferButCannotReadOrSpendAnotherAccount()" classname="ec.edu.espe.billeterax.UserAuthenticationTest" time="0.772"/>
+  <testcase name="loginNormalizesUsernameAndRejectsIncorrectCredentials()" classname="ec.edu.espe.billeterax.UserAuthenticationTest" time="0.278"/>
+  <testcase name="expiredSessionIsRejected()" classname="ec.edu.espe.billeterax.UserAuthenticationTest" time="0.086"/>
+  <testcase name="simultaneousRegistrationsKeepOneUsernameAndOneWallet()" classname="ec.edu.espe.billeterax.UserAuthenticationTest" time="0.096"/>
+  <testcase name="validatesRegistrationAndDoesNotPersistInvalidUsers()" classname="ec.edu.espe.billeterax.UserAuthenticationTest" time="0.07"/>
+  <testcase name="logoutRevokesOnlyThatSessionAndClosesItsWebSocket()" classname="ec.edu.espe.billeterax.UserAuthenticationTest" time="0.248"/>
+  <testcase name="registrationCreatesUserAccountAndHashedSessionWithoutEmail()" classname="ec.edu.espe.billeterax.UserAuthenticationTest" time="0.16"/>
+  <testcase name="duplicateUsernameDoesNotCreateAnExtraAccount()" classname="ec.edu.espe.billeterax.UserAuthenticationTest" time="0.085"/>
+  <system-out><![CDATA[2026-10-24T20:19:03.278-05:00  INFO 17492 --- [BilleteraX] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ec.edu.espe.billeterax.UserAuthenticationTest]: UserAuthenticationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-24T20:19:03.347-05:00  INFO 17492 --- [BilleteraX] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ec.edu.espe.billeterax.BilleteraApplication for test class ec.edu.espe.billeterax.UserAuthenticationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2026-10-24T20:19:03.595-05:00  INFO 17492 --- [BilleteraX] [    Test worker] e.e.e.billeterax.UserAuthenticationTest  : Starting UserAuthenticationTest using Java 21.0.12.1 with PID 17492 (started by matsa in C:\Proyectos\BilleteraX\backend)
+2026-10-24T20:19:03.595-05:00  INFO 17492 --- [BilleteraX] [    Test worker] e.e.e.billeterax.UserAuthenticationTest  : No active profile set, falling back to 1 default profile: "default"
+2026-10-24T20:19:03.895-05:00  INFO 17492 --- [BilleteraX] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-24T20:19:03.931-05:00  INFO 17492 --- [BilleteraX] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 32 ms. Found 5 JPA repository interfaces.
+2026-10-24T20:19:03.994-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2026-10-24T20:19:03.995-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-24T20:19:03.995-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-10-24T20:19:04.047-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-24T20:19:04.047-05:00  INFO 17492 --- [BilleteraX] [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 450 ms
+2026-10-24T20:19:04.089-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-24T20:19:04.100-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-24T20:19:04.118-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-24T20:19:04.120-05:00  INFO 17492 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-10-24T20:19:04.123-05:00  INFO 17492 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:auth-test user=SA
+2026-10-24T20:19:04.123-05:00  INFO 17492 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-10-24T20:19:04.124-05:00  INFO 17492 --- [BilleteraX] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-24T20:19:04.200-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-24T20:19:04.212-05:00  INFO 17492 --- [BilleteraX] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T20:19:04.420-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-24T20:19:04.455-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 59816 (http) with context path '/'
+2026-10-24T20:19:04.458-05:00  INFO 17492 --- [BilleteraX] [    Test worker] e.e.e.billeterax.UserAuthenticationTest  : Started UserAuthenticationTest in 0.912 seconds (process running for 9.972)
+2026-10-24T20:19:04.791-05:00  INFO 17492 --- [BilleteraX] [1-auto-2-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-24T20:19:04.792-05:00  INFO 17492 --- [BilleteraX] [1-auto-2-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-24T20:19:04.793-05:00  INFO 17492 --- [BilleteraX] [1-auto-2-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-24T20:19:05.691-05:00  WARN 17492 --- [BilleteraX] [1-auto-2-exec-6] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 23505, SQLState: 23505
+2026-10-24T20:19:05.691-05:00 ERROR 17492 --- [BilleteraX] [1-auto-2-exec-6] o.h.engine.jdbc.spi.SqlExceptionHelper   : Violación de indice de Unicidad ó Clave primaria: "PUBLIC.CONSTRAINT_INDEX_F ON PUBLIC.WALLET_USERS(USERNAME NULLS FIRST) VALUES ( /* 5 */ 'ana' )"
+Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_F ON PUBLIC.WALLET_USERS(USERNAME NULLS FIRST) VALUES ( /* 5 */ 'ana' )"; SQL statement:
+insert into wallet_users (account_id,created_at,display_name,password_hash,username,id) values (?,?,?,?,?,?) [23505-232]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,585 @@
+{
+  "info": {
+    "name": "BilleteraX • REST y demostración WebSocket",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Laboratorio. Usar 00A/00B para usuario A y 00C/00D para emisor B; guardan sesión y cuenta automáticamente. Recargar B con 08B y transferir con 09. Ver docs/ACCESO_USUARIOS.md. reuseOperationId=true solo para repetir exactamente una solicitud."
+  },
+  "variable": [
+    {
+      "key": "operationId",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if (pm.request.method === \"POST\" && (pm.environment.get(\"reuseOperationId\") !== \"true\" || !pm.collectionVariables.get(\"operationId\"))) {",
+          "  pm.collectionVariables.set(\"operationId\", pm.variables.replaceIn(\"{{$guid}}\"));",
+          "}"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "00A Registrar mi usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"displayName\": \"{{displayName}}\",\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/auth/register"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Acceso correcto\", () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+              "if (pm.response.code === 200 || pm.response.code === 201) {",
+              "  const session = pm.response.json();",
+              "  pm.environment.set(\"tokenA\", session.token);",
+              "  pm.environment.set(\"sourceAccount\", session.user.accountId);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00B Iniciar sesión",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/auth/login"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Acceso correcto\", () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+              "if (pm.response.code === 200 || pm.response.code === 201) {",
+              "  const session = pm.response.json();",
+              "  pm.environment.set(\"tokenA\", session.token);",
+              "  pm.environment.set(\"sourceAccount\", session.user.accountId);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00C Registrar emisor de prueba",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"displayName\": \"{{displayNameB}}\",\n  \"username\": \"{{usernameB}}\",\n  \"password\": \"{{passwordB}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/auth/register"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Acceso correcto\", () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+              "if (pm.response.code === 200 || pm.response.code === 201) {",
+              "  const session = pm.response.json();",
+              "  pm.environment.set(\"tokenB\", session.token);",
+              "  pm.environment.set(\"senderAccount\", session.user.accountId);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00D Iniciar sesión como emisor",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{usernameB}}\",\n  \"password\": \"{{passwordB}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/auth/login"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Acceso correcto\", () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+              "if (pm.response.code === 200 || pm.response.code === 201) {",
+              "  const session = pm.response.json();",
+              "  pm.environment.set(\"tokenB\", session.token);",
+              "  pm.environment.set(\"senderAccount\", session.user.accountId);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 Salud",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          }
+        ],
+        "url": "{{baseUrl}}/actuator/health"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Saldo CTA001",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/accounts/{{sourceAccount}}/balance"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Depositar",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/transactions/deposit",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"operationId\": \"{{operationId}}\",\n  \"accountId\": \"{{sourceAccount}}\",\n  \"amount\": \"{{amount}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Retirar",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/transactions/withdraw",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"operationId\": \"{{operationId}}\",\n  \"accountId\": \"{{sourceAccount}}\",\n  \"amount\": \"{{amount}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Transferir A → B",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/transactions/transfer",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"operationId\": \"{{operationId}}\",\n  \"accountId\": \"{{sourceAccount}}\",\n  \"amount\": \"{{amount}}\",\n  \"destinationAccountId\": \"{{destinationAccount}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Pagar servicio",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/payments/services",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"operationId\": \"{{operationId}}\",\n  \"accountId\": \"{{sourceAccount}}\",\n  \"amount\": \"{{amount}}\",\n  \"service\": \"{{service}}\",\n  \"contract\": \"{{contract}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Historial",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/accounts/{{sourceAccount}}/transactions?page=0&size=50"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Conciliar",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/accounts/{{sourceAccount}}/snapshot"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08B Recargar cuenta emisora $20",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenB}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/transactions/deposit",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"operationId\": \"{{operationId}}\",\n  \"accountId\": \"{{senderAccount}}\",\n  \"amount\": \"20.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "09 DEMO: B envía $20 a A",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenB}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/transactions/transfer",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"operationId\": \"{{operationId}}\",\n  \"accountId\": \"{{senderAccount}}\",\n  \"destinationAccountId\": \"{{sourceAccount}}\",\n  \"amount\": \"20.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Fondos insuficientes",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/transactions/withdraw",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"operationId\": \"{{operationId}}\",\n  \"accountId\": \"{{sourceAccount}}\",\n  \"amount\": \"999999.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Cuenta destino inexistente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/transactions/transfer",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"operationId\": \"{{operationId}}\",\n  \"accountId\": \"{{sourceAccount}}\",\n  \"amount\": \"{{amount}}\",\n  \"destinationAccountId\": \"CTA999\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 Acceso ajeno denegado",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenA}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/accounts/CTA002/balance"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

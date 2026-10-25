@@ -1,0 +1,40 @@
+{
+  "date_utc": "2026-10-25T01:30:56.250088+00:00",
+  "version": "1.1.0",
+  "version_code": 2,
+  "status": "passed",
+  "apk_sha256": "a6e0cee82b4b45babbc8ae0ceeb182f2e7aaad341c18228c5596191cdf34404b",
+  "jar_sha256": "29c87b1fac278986eee8cda9dab79a1a31a49926140f1f295de377b31189ce21",
+  "backend": {
+    "passed": 22,
+    "skipped": 1,
+    "failed": 0,
+    "skip_reason": "Windows sandbox: H2 reopened read-only; restart verified on actual Debian"
+  },
+  "android_unit_tests": 2,
+  "android_instrumentation_local": 4,
+  "android_registered_user_tests_debian": 2,
+  "ui_checks": {
+    "registration_creates_own_zero_balance_account": true,
+    "deposit_from_authenticated_ui": true,
+    "session_and_dark_theme_survive_process_restart": true,
+    "incorrect_password_rejected": true,
+    "login_restores_same_account_and_history": true,
+    "second_user_does_not_inherit_first_balance": true,
+    "switch_back_restores_first_user_balance": true
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 20
+  },
+  "debian_deployment": "debian-auth-upgrade.json",
+  "physical_phone_new_apk": "pending user installation",
+  "pending_academic": [
+    "full VM reboot",
+    "lost response after commit",
+    "extended profiling",
+    "academic remote publication"
+  ],
+  "deployed_jar_sha256": "29c87b1fac278986eee8cda9dab79a1a31a49926140f1f295de377b31189ce21",
+  "final_text_fix_deployment_pending": false
+}

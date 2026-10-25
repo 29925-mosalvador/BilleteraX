@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ec.edu.espe.billeterax.PersistenceRestartTest" tests="1" skipped="1" failures="0" errors="0" timestamp="2026-10-25T01:18:55.249Z" hostname="MAT" time="7.994">
+  <properties/>
+  <testcase name="fileDatabaseAndIdempotencySurviveServerRestart()" classname="ec.edu.espe.billeterax.PersistenceRestartTest" time="7.994">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2026-10-24T20:18:55.940-05:00  INFO 17492 --- [BilleteraX] [    Test worker] w.o.g.p.i.worker.GradleWorkerMain        : Starting GradleWorkerMain using Java 21.0.12.1 with PID 17492 (started by matsa in C:\Proyectos\BilleteraX\backend)
+2026-10-24T20:18:55.943-05:00  INFO 17492 --- [BilleteraX] [    Test worker] w.o.g.p.i.worker.GradleWorkerMain        : The following 1 profile is active: "dev"
+2026-10-24T20:18:57.028-05:00  INFO 17492 --- [BilleteraX] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-24T20:18:57.115-05:00  INFO 17492 --- [BilleteraX] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71 ms. Found 5 JPA repository interfaces.
+2026-10-24T20:18:57.753-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2026-10-24T20:18:57.773-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-24T20:18:57.774-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-10-24T20:18:57.860-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-24T20:18:57.861-05:00  INFO 17492 --- [BilleteraX] [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1869 ms
+2026-10-24T20:18:58.256-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-24T20:18:58.377-05:00  INFO 17492 --- [BilleteraX] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-10-24T20:18:58.438-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-24T20:18:58.810-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-24T20:18:58.855-05:00  INFO 17492 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-24T20:18:59.140-05:00  INFO 17492 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Proyectos/BilleteraX/backend/build/tmp/tests/junit-8715510204740433433/wallet user=SA
+2026-10-24T20:18:59.142-05:00  INFO 17492 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-24T20:18:59.208-05:00  INFO 17492 --- [BilleteraX] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-24T20:19:00.324-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-24T20:19:00.403-05:00  INFO 17492 --- [BilleteraX] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T20:19:00.762-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-24T20:19:02.564-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-24T20:19:02.653-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 59808 (http) with context path '/'
+2026-10-24T20:19:02.663-05:00  INFO 17492 --- [BilleteraX] [    Test worker] w.o.g.p.i.worker.GradleWorkerMain        : Started GradleWorkerMain in 7.253 seconds (process running for 8.177)
+2026-10-24T20:19:03.139-05:00  INFO 17492 --- [BilleteraX] [    Test worker] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-24T20:19:03.145-05:00  INFO 17492 --- [BilleteraX] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-10-24T20:19:03.151-05:00  INFO 17492 --- [BilleteraX] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T20:19:03.153-05:00  INFO 17492 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-24T20:19:03.215-05:00  INFO 17492 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ec.edu.espe.billeterax.WalletIntegrationTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-10-16T07:46:47.405Z" hostname="MAT" time="1.822">
+  <properties/>
+  <testcase name="healthIsAvailableAndOtherManagementEndpointsHidden()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.5"/>
+  <testcase name="atomicTransferAndHistory()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.038"/>
+  <testcase name="nonexistentDestinationRollsBack()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.02"/>
+  <testcase name="validatesAmountsAndSelfTransfer()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.17"/>
+  <testcase name="realWebSocketNotifiesOnlyAuthorizedAccountAfterCommit()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.598"/>
+  <testcase name="depositWithdrawAndSnapshot()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.049"/>
+  <testcase name="authorizationPreventsReadingOrSpendingOtherAccount()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.027"/>
+  <testcase name="concurrentWithdrawalsNeverOverdraw()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.062"/>
+  <testcase name="concurrentOppositeTransfersConserveTotalAndDoNotDeadlock()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.194"/>
+  <testcase name="websocketRejectsInvalidCredential()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.033"/>
+  <testcase name="servicePaymentAndContract()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.025"/>
+  <testcase name="concurrentDuplicateRequestsCreditExactlyOnce()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.044"/>
+  <testcase name="insufficientFundsRollsBack()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.019"/>
+  <testcase name="idempotencyReplaysReceiptAndRejectsDifferentPayload()" classname="ec.edu.espe.billeterax.WalletIntegrationTest" time="0.014"/>
+  <system-out><![CDATA[2026-10-16T02:46:46.651-05:00  INFO 34436 --- [BilleteraX] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ec.edu.espe.billeterax.WalletIntegrationTest]: WalletIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-16T02:46:46.682-05:00  INFO 34436 --- [BilleteraX] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ec.edu.espe.billeterax.BilleteraApplication for test class ec.edu.espe.billeterax.WalletIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2026-10-16T02:46:46.838-05:00  INFO 34436 --- [BilleteraX] [    Test worker] e.e.e.billeterax.WalletIntegrationTest   : Starting WalletIntegrationTest using Java 21.0.12.1 with PID 34436 (started by matsa in C:\Proyectos\BilleteraX\backend)
+2026-10-16T02:46:46.838-05:00  INFO 34436 --- [BilleteraX] [    Test worker] e.e.e.billeterax.WalletIntegrationTest   : The following 1 profile is active: "dev"
+2026-10-16T02:46:47.052-05:00  INFO 34436 --- [BilleteraX] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-16T02:46:47.063-05:00  INFO 34436 --- [BilleteraX] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 3 JPA repository interfaces.
+2026-10-16T02:46:47.109-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2026-10-16T02:46:47.109-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-16T02:46:47.109-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-10-16T02:46:47.132-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-16T02:46:47.133-05:00  INFO 34436 --- [BilleteraX] [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 294 ms
+2026-10-16T02:46:47.168-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-16T02:46:47.171-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-16T02:46:47.179-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-16T02:46:47.181-05:00  INFO 34436 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-10-16T02:46:47.182-05:00  INFO 34436 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn16: url=jdbc:h2:mem:wallet-test user=SA
+2026-10-16T02:46:47.182-05:00  INFO 34436 --- [BilleteraX] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-10-16T02:46:47.184-05:00  INFO 34436 --- [BilleteraX] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-16T02:46:47.229-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-16T02:46:47.239-05:00  INFO 34436 --- [BilleteraX] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-16T02:46:47.365-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-16T02:46:47.390-05:00  INFO 34436 --- [BilleteraX] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 52852 (http) with context path '/'
+2026-10-16T02:46:47.393-05:00  INFO 34436 --- [BilleteraX] [    Test worker] e.e.e.billeterax.WalletIntegrationTest   : Started WalletIntegrationTest in 0.586 seconds (process running for 17.71)
+2026-10-16T02:46:47.760-05:00  INFO 34436 --- [BilleteraX] [1-auto-3-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-16T02:46:47.761-05:00  INFO 34436 --- [BilleteraX] [1-auto-3-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-16T02:46:47.761-05:00  INFO 34436 --- [BilleteraX] [1-auto-3-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Proyectos\BilleteraX\.tools\gradle-home\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.17.8\f09415827a71be7ed621c7bd02550678f28bc81c\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

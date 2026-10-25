@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-18T02:43:27.894246+00:00",
+  "status": "passed",
+  "scope": "APK signature repair and data-preserving installation; not Debian integration tests",
+  "device": "emulator-5554",
+  "installed_and_rebuilt_certificate_sha256": "82dd2604bc2b101f8a038f6db8939d04d5dba055acb565b342221d7fab1ce0fa",
+  "previous_apk_certificate_sha256": "f7d60f9662570ab427802056fe71c595b0b850067ce0fe05454e208e404ad4f9",
+  "app_apk_sha256": "02f12bd5e64338933b2b8abcd540988a502f68de0dcda0c9d96ae546d9adb596",
+  "test_apk_sha256": "9749a405fa3789a06d523629d2339f2b3ed6a5d374ba370eabd2bc66a8814338",
+  "build": "BUILD SUCCESSFUL; 74 tasks: 3 executed, 71 up-to-date",
+  "install_app_r": "Success",
+  "install_test_r": "Success",
+  "database_sha256_before_and_after": "89b707191d6f017d8b6048be08282385143c622d88a8ce3ec00e7f32276f8051",
+  "wal_sha256_before_and_after": "0e4e5d00bc5411c4eb0c9205a6e7575c8d9aadea9b2f8c247d5f42da7f5bf4eb",
+  "data_preserved": true,
+  "uninstall_or_clear_data": false,
+  "verification": "apksigner verify --print-certs; adb install -r; run-as sha256sum before/after"
+}

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "candidate_files": 143,
+  "credential_patterns_found": 0,
+  "real_databases_and_keys_excluded": true,
+  "workflow_static_validation": "actionlint passed",
+  "remote": "https://github.com/29925-mosalvador/BilleteraX",
+  "public": true,
+  "note": "Static source scan, not a runtime test or GitHub Actions result."
+}

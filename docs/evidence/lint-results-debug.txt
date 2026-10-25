@@ -1,0 +1,141 @@
+C:\Proyectos\BilleteraX\android\gradle\wrapper\gradle-wrapper.properties:3: Warning: A newer version of Gradle than 8.13 is available: 8.14.6 [AndroidGradlePluginVersion]
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.13-bin.zip
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "AndroidGradlePluginVersion":
+   This detector looks for usage of the Android Gradle Plugin where the
+   version you are using is not the current stable release. Using older
+   versions is fine, and there are cases where you deliberately want to stick
+   with an older version. However, you may simply not be aware that a more
+   recent version is available, and that is what this lint check helps find.
+
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:27: Warning: A newer version of androidx.compose:compose-bom than 2025.10.00 is available: 2026.09.00 [GradleDependency]
+    implementation(platform("androidx.compose:compose-bom:2025.10.00"))
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:28: Warning: A newer version of androidx.core:core-ktx than 1.17.0 is available: 1.19.1 [GradleDependency]
+    implementation("androidx.core:core-ktx:1.17.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:29: Warning: A newer version of androidx.activity:activity-compose than 1.11.0 is available: 1.13.0 [GradleDependency]
+    implementation("androidx.activity:activity-compose:1.11.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:34: Warning: A newer version of androidx.lifecycle:lifecycle-runtime-compose than 2.9.4 is available: 2.11.0 [GradleDependency]
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:35: Warning: A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.9.4 is available: 2.11.0 [GradleDependency]
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:36: Warning: A newer version of androidx.navigation:navigation-compose than 2.9.5 is available: 2.10.2 [GradleDependency]
+    implementation("androidx.navigation:navigation-compose:2.9.5")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:37: Warning: A newer version of androidx.room:room-runtime than 2.8.3 is available: 2.8.5 [GradleDependency]
+    implementation("androidx.room:room-runtime:2.8.3")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:38: Warning: A newer version of androidx.room:room-ktx than 2.8.3 is available: 2.8.5 [GradleDependency]
+    implementation("androidx.room:room-ktx:2.8.3")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:39: Warning: A newer version of androidx.room:room-compiler than 2.8.3 is available: 2.8.5 [GradleDependency]
+    kapt("androidx.room:room-compiler:2.8.3")
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "GradleDependency":
+   This detector looks for usages of libraries where the version you are using
+   is not the current stable release. Using older versions is fine, and there
+   are cases where you deliberately want to stick with an older version.
+   However, you may simply not be aware that a more recent version is
+   available, and that is what this lint check helps find.
+
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:40: Warning: A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-android than 1.10.2 is available: 1.11.0 [NewerVersionAvailable]
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:41: Warning: A newer version of com.squareup.retrofit2:retrofit than 2.11.0 is available: 3.0.0 [NewerVersionAvailable]
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:42: Warning: A newer version of com.squareup.retrofit2:converter-gson than 2.11.0 is available: 3.0.0 [NewerVersionAvailable]
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:43: Warning: A newer version of com.squareup.okhttp3:okhttp than 4.12.0 is available: 5.5.0 [NewerVersionAvailable]
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:48: Warning: A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-test than 1.10.2 is available: 1.11.0 [NewerVersionAvailable]
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "NewerVersionAvailable":
+   This detector checks with a central repository to see if there are newer
+   versions available for the dependencies used by this project. This is
+   similar to the GradleDependency check, which checks for newer versions
+   available in the Android SDK tools and libraries, but this works with any
+   MavenCentral dependency, and connects to the library every time, which
+   makes it more flexible but also much slower.
+
+C:\Proyectos\BilleteraX\android\app\build.gradle.kts:39: Warning: This library supports using KSP instead of kapt, which greatly improves performance. Learn more: https://developer.android.com/studio/build/migrate-to-ksp [KaptUsageInsteadOfKsp]
+    kapt("androidx.room:room-compiler:2.8.3")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "KaptUsageInsteadOfKsp":
+   KSP is a more efficient replacement for kapt. For libraries that support
+   both, KSP should be used to improve build times.
+
+   https://developer.android.com/studio/build/migrate-to-ksp
+
+C:\Proyectos\BilleteraX\android\app\src\main\java\ec\edu\espe\billeterax\data\ConfigStore.kt:42: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        check(prefs.edit().putString("url", config.url).putString("account", config.account).putString("token", token).commit())
+              ~~~~~~~~~~~~
+
+   Explanation for issues of type "UseKtx":
+   The Android KTX libraries decorates the Android platform SDK as well as
+   various libraries with more convenient extension functions available from
+   Kotlin, allowing you to use default parameters, named parameters, and
+   more.
+
+   Available options:
+
+   **remove-defaults** (default is true):
+   Whether to skip arguments that match the defaults provided by the extension.
+
+   Extensions often provide default values for some of the parameters. For example:
+   ```kotlin
+   fun Path.readLines(charset: Charset = Charsets.UTF_8): List<String> { return Files.readAllLines(this, charset) }
+   ```
+   This lint check will by default automatically omit parameters that match the default, so if your code was calling
+
+   ```kotlin
+   Files.readAllLines(file, Charset.UTF_8)
+   ```
+   lint would replace this with
+   ```kotlin
+   file.readLines()
+   ```
+   rather than
+
+   ```kotlin
+   file.readLines(Charset.UTF_8
+   ```
+   You can turn this behavior off using this option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="remove-defaults" value="true" />
+       </issue>
+   </lint>
+   ```
+
+   **require-present** (default is true):
+   Whether to only offer extensions already available.
+
+   This option lets you only have lint suggest extension replacements if those extensions are already available on the class path (in other words, you're already depending on the library containing the extension method.)
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="require-present" value="true" />
+       </issue>
+   </lint>
+   ```
+
+0 errors, 17 warnings

@@ -1,0 +1,24 @@
+Starting a Gradle Daemon, 2 busy and 3 incompatible and 4 stopped Daemons could not be reused, use --status for details
+> Task :compileJava
+> Task :processResources UP-TO-DATE
+> Task :classes
+> Task :resolveMainClassName
+> Task :bootJar
+> Task :compileTestJava
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-10-24T20:19:08.242-05:00  INFO 17492 --- [BilleteraX] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-24T20:19:08.243-05:00  INFO 17492 --- [BilleteraX] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-10-24T20:19:08.244-05:00  INFO 17492 --- [BilleteraX] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T20:19:08.247-05:00  INFO 17492 --- [BilleteraX] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-10-24T20:19:08.247-05:00  INFO 17492 --- [BilleteraX] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-10-24T20:19:08.250-05:00  INFO 17492 --- [BilleteraX] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-24T20:19:08.251-05:00  INFO 17492 --- [BilleteraX] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-10-24T20:19:08.253-05:00  INFO 17492 --- [BilleteraX] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T20:19:08.254-05:00  INFO 17492 --- [BilleteraX] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2026-10-24T20:19:08.255-05:00  INFO 17492 --- [BilleteraX] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+> Task :test
+
+BUILD SUCCESSFUL in 25s
+7 actionable tasks: 5 executed, 2 up-to-date

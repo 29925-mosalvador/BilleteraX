@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-25T01:19:32.762951+00:00",
+  "status": "passed",
+  "server": "http://10.0.2.2:8085/",
+  "checks": {
+    "registration_creates_own_zero_balance_account": true,
+    "deposit_from_authenticated_ui": true,
+    "session_and_dark_theme_survive_process_restart": true,
+    "incorrect_password_rejected": true,
+    "login_restores_same_account_and_history": true,
+    "second_user_does_not_inherit_first_balance": true,
+    "switch_back_restores_first_user_balance": true
+  },
+  "account": "CTA5215957519"
+}

@@ -1,0 +1,4 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <!-- El APK debug permite HTTP únicamente para el laboratorio privado. Release exige HTTPS. -->
+    <application android:usesCleartextTraffic="true" tools:replace="android:usesCleartextTraffic" />
+</manifest>

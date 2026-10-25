@@ -1,0 +1,6 @@
+{
+  "status": "passed",
+  "server": "http://192.168.18.76:8080/",
+  "screen": "login",
+  "no_manual_account_token_required": true
+}

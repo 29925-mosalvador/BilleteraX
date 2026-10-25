@@ -1,0 +1,28 @@
+[
+  {
+    "initial": 121.23
+  },
+  {
+    "ui_operation": "Depositar",
+    "balance": 131.23
+  },
+  {
+    "ui_operation": "Retirar",
+    "balance": 126.23
+  },
+  {
+    "ui_operation": "Transferir",
+    "balance": 124.23
+  },
+  {
+    "ui_operation": "Pagar servicios",
+    "balance": 121.23
+  },
+  {
+    "insufficient_funds_ui": "passed"
+  },
+  {
+    "websocket_ui_update_without_refresh": "$141.23",
+    "operationId": "0df758d0-e8fc-4431-8eef-996c41888922"
+  }
+]

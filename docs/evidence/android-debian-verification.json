@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-18T02:44:57.688657+00:00",
+  "server": "http://192.168.18.76:8080/",
+  "status": "passed",
+  "checks": {
+    "apk_updates_preserve_data": true,
+    "room_and_distributed_flow": true,
+    "cached_balance_after_process_restart_offline": true,
+    "pending_uuid_survives_process_restart": true,
+    "recovery_and_idempotent_replay": true,
+    "final_ui_online": true
+  },
+  "device": "emulator-5554",
+  "pending_operation_id": "5b60497d-4dfc-4e64-8465-15418b248fb3",
+  "final_account": {
+    "accountId": "CTA001",
+    "ownerName": "Usuario A",
+    "balance": 122.23,
+    "version": 3
+  },
+  "pending": [
+    "Perdida de respuesta despues del commit",
+    "Reinicio completo de VM",
+    "Perfilado prolongado"
+  ]
+}

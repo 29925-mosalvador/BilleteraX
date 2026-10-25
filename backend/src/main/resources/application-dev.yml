@@ -1,0 +1,4 @@
+# Credenciales PUBLICAS del laboratorio. Nunca usar fuera de la demostración local.
+wallet:
+  token-a: ${WALLET_TOKEN_A:demo-cta001-local-only}
+  token-b: ${WALLET_TOKEN_B:demo-cta002-local-only}

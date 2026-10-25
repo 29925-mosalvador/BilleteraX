@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-17T21:41:09.963994+00:00",
+  "host": "192.168.18.76",
+  "topology": "VirtualBox bridged; Windows -> Debian TCP 22/8080",
+  "jar_sha256": "c9a02f423423499f60774fe5132527e5bd3fcb665c0f171bb82e2b8e233ef7d7",
+  "status": "passed",
+  "checks": {
+    "transfer_sha256_and_shell_syntax": true,
+    "health_from_windows": true,
+    "rest_authorized_and_unauthorized": true,
+    "websocket_authenticated_handshake": true,
+    "snapshot_preserved_after_service_restart": true
+  },
+  "inspection": "0\nDebianServer\nPRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\nlo               UNKNOWN        127.0.0.1/8 \nenp0s3           UP             192.168.18.76/24 \ndefault via 192.168.18.1 dev enp0s3 proto static metric 100 \n192.168.18.0/24 dev enp0s3 proto kernel scope link src 192.168.18.76 metric 100 \nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        19G  5.3G   13G  31% /",
+  "network_profile": "manual\n192.168.18.76/24\n192.168.18.1",
+  "java": "openjdk version \"21.0.12.1\" 2026-08-18\nOpenJDK Runtime Environment (build 21.0.12.1+1-1-deb13u1-Debian)\nOpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-deb13u1-Debian, mixed mode, sharing)",
+  "staging_directory": "/var/tmp/billeterax-deploy.jAYJqMM4",
+  "service": "enabled\nactive\nMainPID=4587\nUser=billeterax",
+  "accounts": {
+    "CTA001": {
+      "accountId": "CTA001",
+      "ownerName": "Usuario A",
+      "balance": 100.0,
+      "version": 0
+    },
+    "CTA002": {
+      "accountId": "CTA002",
+      "ownerName": "Usuario B",
+      "balance": 50.0,
+      "version": 0
+    }
+  },
+  "pending": [
+    "Android contra Debian",
+    "Eventos monetarios WebSocket",
+    "Recuperacion Android offline",
+    "Reinicio completo de la VM"
+  ]
+}
