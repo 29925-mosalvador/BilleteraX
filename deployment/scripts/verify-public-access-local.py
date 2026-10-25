@@ -40,7 +40,12 @@ def start(name):
     return p
 def stop(name):
     p=processes.pop(name,None)
-    if p and p.poll() is None:p.terminate();p.wait(timeout=15)
+    if p and p.poll() is None:
+        # A gateway crash must interrupt the response immediately on Linux too.
+        if name=='gateway':p.kill()
+        else:p.terminate()
+        try:p.wait(timeout=15)
+        except subprocess.TimeoutExpired:p.kill();p.wait(timeout=10)
 def register(base,label):
     username=label+uuid.uuid4().hex[:10]
     auth=request(base,'POST','/api/auth/register',body={'username':username,'displayName':'Prueba acceso público','password':'Demo-publica-123'},expected=201)
