@@ -3,8 +3,10 @@ name: BilleteraX - compilar y probar
 on:
   push:
     branches: [main]
+    paths: ['backend/**', 'android/**', '.github/workflows/**', '.gitattributes']
   pull_request:
     branches: [main]
+    paths: ['backend/**', 'android/**', '.github/workflows/**', '.gitattributes']
   workflow_dispatch:
 
 permissions:
@@ -69,7 +71,8 @@ jobs:
             android/**/*.gradle*
             android/gradle/wrapper/gradle-wrapper.properties
       - name: Preparar SDK requerido
-        run: sdkmanager --install 'platforms;android-36.1' 'build-tools;35.0.0'
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install 'platforms;android-36.1' 'build-tools;35.0.0'
       - name: Compilar APK y pruebas; ejecutar unitarias y lint
         run: bash gradlew assembleDebug assembleDebugAndroidTest testDebugUnitTest lintDebug --no-daemon --console=plain
       - name: Guardar APK de CI (firma temporal del runner)
