@@ -19,7 +19,13 @@ class WalletSocket(private val network: WalletNetwork) {
             override fun onOpen(webSocket: WebSocket, response: Response) { trySend(SocketSignal.State(Connection.CONNECTED)); trySend(SocketSignal.Changed) }
             override fun onMessage(webSocket: WebSocket, text: String) {
                 runCatching { network.gson.fromJson(text, EventDto::class.java) }.getOrNull()?.let {
-                    if (it.accountId == network.config.account) trySend(SocketSignal.Changed)
+                    if (it.accountId == network.config.account) {
+                        trySend(SocketSignal.Changed)
+                        if (it.type == "SESSION_REVOKED" || it.type == "SERVER_UNAVAILABLE") {
+                            webSocket.close(1000, "Volver a conectar")
+                            close()
+                        }
+                    }
                 }
             }
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) { close() }

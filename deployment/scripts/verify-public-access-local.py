@@ -103,12 +103,12 @@ try:
     check(replay['replayed'] and float(balance(a))==25,'respuesta perdida y reinicio del auxiliar: mismo UUID sin duplicados')
     logout_socket=websocket.create_connection('ws://127.0.0.1:8088/ws',header={'Authorization':'Bearer '+b['token']},origin='http://127.0.0.1:8088',timeout=10);logout_socket.recv()
     request(D,'POST','/api/auth/logout',b['token'],expected=204)
-    closed=logout_socket.recv_frame()
-    check(closed.opcode==websocket.ABNF.OPCODE_CLOSE,'logout directo revoca también WebSocket público')
+    terminal=json.loads(logout_socket.recv())
+    check(terminal.get('type')=='SESSION_REVOKED','logout directo revoca también WebSocket público')
     request(G,'GET','/api/auth/me',b['token'],expected=401);logout_socket.close()
     down_socket=websocket.create_connection('ws://127.0.0.1:8088/ws',header={'Authorization':'Bearer '+a['token']},origin='http://127.0.0.1:8088',timeout=10);down_socket.recv()
     stop('primary');wait(lambda:not request(G,'GET','/api/status')['online'],seconds=12)
-    check(down_socket.recv_frame().opcode==websocket.ABNF.OPCODE_CLOSE,'desconexión del principal cierra WebSockets públicos')
+    check(json.loads(down_socket.recv()).get('type')=='SERVER_UNAVAILABLE','desconexión del principal cierra WebSockets públicos')
     request(G,'POST','/api/auth/login',body={'username':username,'password':'Demo-publica-123'},expected=503)
     request(G,'POST','/api/transactions/deposit',a['token'],money('deposit',a,'100.00'),expected=503)
     check(True,'sin Debian no se aceptan login ni operaciones')
@@ -117,7 +117,7 @@ try:
     # This disposable primary deliberately uses an in-memory DB; persistence of Debian is a separate test.
     register(G,'recover')
     check(True,'recuperación automática tras encender el principal de prueba')
-    report={'date':__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),'status':'passed','environment':os.name+' loopback, actual Java gateway and Java primary; disposable in-memory DB; no router or Debian changes','checks':checks,'gateway_jar_sha256':hashlib.sha256((ROOT/'gateway/build/libs/gateway.jar').read_bytes()).hexdigest(),'backend_jar_sha256':hashlib.sha256((ROOT/'backend/build/libs/billeterax.jar').read_bytes()).hexdigest(),'limitations':['No public host deployed yet','No Android device execution in this check','Authoritative Debian persistence is covered by earlier deployment evidence, not this in-memory fixture']}
+    report={'date':__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),'status':'passed','environment':os.name+' loopback, actual Java gateway and Java primary; disposable in-memory DB; no router or Debian changes','checks':checks,'gateway_jar_sha256':hashlib.sha256((ROOT/'gateway/build/libs/gateway.jar').read_bytes()).hexdigest(),'backend_jar_sha256':hashlib.sha256((ROOT/'backend/build/libs/billeterax.jar').read_bytes()).hexdigest(),'limitations':['This local check does not verify public hosting or Debian deployment','No Android device execution in this check','Authoritative Debian persistence is covered by earlier deployment evidence, not this in-memory fixture']}
     (ROOT/'docs/evidence/public-access-local.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     if '--keep-running' in sys.argv:
         (RUNTIME/'pids.json').write_text(json.dumps({n:p.pid for n,p in processes.items()}))

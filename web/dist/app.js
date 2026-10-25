@@ -90,7 +90,12 @@ async function connectSocket(epoch,attempt=0){
     const url=new URL('/ws',state.base);url.protocol=url.protocol==='https:'?'wss:':'ws:';url.searchParams.set('ticket',ticket);
     const ws=new WebSocket(url);state.socket=ws;
     ws.onopen=()=>{if(epoch!==state.epoch){ws.close();return;}connection('online','En línea');refresh();};
-    ws.onmessage=e=>{if(epoch!==state.epoch)return;try{const event=JSON.parse(e.data);if(event.type==='TRANSFER_RECEIVED')toast('Recibiste una transferencia. Tu saldo se está actualizando.');refresh();}catch{}};
+    ws.onmessage=e=>{if(epoch!==state.epoch)return;try{
+      const event=JSON.parse(e.data);
+      if(event.accountId===state.auth.user.accountId && event.type==='SESSION_REVOKED'){showAccess('Tu sesión terminó. Inicia sesión de nuevo.');return;}
+      if(event.accountId===state.auth.user.accountId && event.type==='SERVER_UNAVAILABLE'){connection('offline','Sin conexión');errorAt('bank-error','Se perdió la conexión con el servidor. Intentando reconectar.');ws.close();return;}
+      if(event.type==='TRANSFER_RECEIVED')toast('Recibiste una transferencia. Tu saldo se está actualizando.');refresh();
+    }catch{}};
     ws.onerror=()=>{};
     ws.onclose=()=>{if(epoch!==state.epoch)return;state.socket=null;connection('offline','Reconectando');state.reconnect=setTimeout(()=>connectSocket(epoch,attempt+1),Math.min(15000,1000*2**Math.min(attempt,4)));};
   }catch(err){if(epoch!==state.epoch)return;if(sessionFailure(err))return;connection('offline','Sin conexión');state.reconnect=setTimeout(()=>connectSocket(epoch,attempt+1),Math.min(15000,1000*2**Math.min(attempt,4)));}

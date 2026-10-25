@@ -222,6 +222,8 @@ print('Configuracion preparada; credenciales conservadas o generadas localmente'
                 config = dict(line.split('=', 1) for line in file.read().decode().splitlines()
                               if line and not line.startswith('#') and '=' in line)
         tokens.extend([config['WALLET_TOKEN_A'], config['WALLET_TOKEN_B'], config['DB_PASSWORD']])
+        tokens.append(config.get('GATEWAY_AGENT_TOKEN', ''))
+        public_url = args.gateway_url or (config.get('GATEWAY_URL') if config.get('GATEWAY_ENABLED') == 'true' else None)
         before = {account: snapshot(account, token) for account, token in zip(('CTA001', 'CTA002'), (config['WALLET_TOKEN_A'], config['WALLET_TOKEN_B']))}
         if pre_upgrade is not None:
             for account in pre_upgrade:
@@ -316,14 +318,14 @@ print('Configuracion preparada; credenciales conservadas o generadas localmente'
         report['auth_smoke_user'] = {'username': test_username, 'accountId': test_account, 'balance': 0}
         # The smoke user remains a zero-balance test record. Its random password is not saved.
 
-        if args.gateway_url:
+        if public_url:
             print('Comprobando acceso público HTTPS/WSS y dependencia de Debian...', flush=True)
             from public_access_check import verify_public_access
-            verify_public_access(http, args.gateway_url, origin, test_username, test_password,
+            verify_public_access(http, public_url, origin, test_username, test_password,
                                  test_account, run, wait_health, tokens, report['checks'])
-            report['public_gateway'] = {'url': args.gateway_url, 'node': 'debian-primary', 'database': 'Debian only'}
+            report['public_gateway'] = {'url': public_url, 'node': 'debian-primary', 'database': 'Debian only'}
         report['accounts'] = {key: value['account'] for key, value in after.items()}
-        report['pending'] = ([] if args.gateway_url else ['Activar/verificar acceso público HTTPS fijo']) + ['Reinicio completo de la VM', 'Perfilado prolongado']
+        report['pending'] = ([] if public_url else ['Activar/verificar acceso público HTTPS fijo']) + ['Reinicio completo de la VM', 'Perfilado prolongado']
         report['status'] = 'passed'
         print('OK: backend disponible en ' + base + '/. Evidencia: ' + str(evidence))
     except Exception as exc:

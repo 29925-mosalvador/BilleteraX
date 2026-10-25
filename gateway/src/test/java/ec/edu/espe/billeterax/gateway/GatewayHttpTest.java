@@ -52,10 +52,10 @@ class GatewayHttpTest {
         assertEquals("LOGIN",command.kind());assertFalse(response.isDone());
         exchange(List.of(new Result(command.id(),200,mapper.valueToTree(Map.of("token","opaque-test-session")))),List.of());
         assertEquals(200,response.get(5,TimeUnit.SECONDS).statusCode());
-        var connected=new CompletableFuture<String>();var incoming=new CompletableFuture<String>();var closed=new CompletableFuture<Integer>();
+        var connected=new CompletableFuture<String>();var incoming=new CompletableFuture<String>();var closed=new CompletableFuture<Integer>();var revokedNotice=new CompletableFuture<String>();
         var connecting=http.newWebSocketBuilder().header("Origin",ORIGIN).header("X-Forwarded-Proto","https").header("X-Forwarded-Host","wallet.example").header("Authorization","Bearer opaque-test-session").buildAsync(URI.create("ws://127.0.0.1:"+port+"/ws"),new WebSocket.Listener(){
             public void onOpen(WebSocket socket){socket.request(1);}
-            public CompletionStage<?> onText(WebSocket socket,CharSequence text,boolean last){if(text.toString().contains("CONNECTED"))connected.complete(text.toString());else incoming.complete(text.toString());socket.request(1);return null;}
+            public CompletionStage<?> onText(WebSocket socket,CharSequence text,boolean last){if(text.toString().contains("CONNECTED"))connected.complete(text.toString());else incoming.complete(text.toString());if(text.toString().contains("SESSION_REVOKED"))revokedNotice.complete(text.toString());socket.request(1);return null;}
             public CompletionStage<?> onClose(WebSocket socket,int code,String reason){closed.complete(code);return null;}
         });
         var auth=nextCommand();assertEquals("AUTH_SOCKET",auth.kind());
@@ -65,7 +65,7 @@ class GatewayHttpTest {
             assertTrue(connected.get(5,TimeUnit.SECONDS).contains("CTA001"));
             exchange(List.of(),List.of(mapper.valueToTree(Map.of("kind","EVENT","event",Map.of("type","TRANSFER_RECEIVED","accountId","CTA002")))));assertFalse(incoming.isDone());
             exchange(List.of(),List.of(mapper.valueToTree(Map.of("kind","EVENT","event",Map.of("type","TRANSFER_RECEIVED","accountId","CTA001")))));assertTrue(incoming.get(5,TimeUnit.SECONDS).contains("CTA001"));
-            exchange(List.of(),List.of(mapper.valueToTree(Map.of("kind","REVOKED","sessionHash",hash))));assertEquals(1008,closed.get(5,TimeUnit.SECONDS));
+            exchange(List.of(),List.of(mapper.valueToTree(Map.of("kind","REVOKED","sessionHash",hash))));assertTrue(revokedNotice.get(5,TimeUnit.SECONDS).contains("CTA001"));assertEquals(1008,closed.get(5,TimeUnit.SECONDS));
         }finally{ws.abort();}
     }
 }

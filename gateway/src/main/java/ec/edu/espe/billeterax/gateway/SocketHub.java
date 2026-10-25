@@ -32,6 +32,10 @@ public class SocketHub extends TextWebSocketHandler {
     @Override public void handleTransportError(WebSocketSession session,Throwable error){close(session,CloseStatus.SERVER_ERROR);}
     private void close(WebSocketSession session,CloseStatus reason){
         sessions.remove(session.getId());
+        // An explicit notice lets clients close even if an intermediary delays the close frame.
+        String type=reason.getCode()==1008?"SESSION_REVOKED":"SERVER_UNAVAILABLE";
+        try{if(session.isOpen())session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type",type,"accountId",session.getAttributes().get("accountId")))));}
+        catch(Exception error){log.warn("No se pudo enviar aviso de cierre: {}",error.getClass().getSimpleName());}
         try{session.close(reason);log.info("Cierre WebSocket: codigo={}, abierto={}",reason.getCode(),session.isOpen());}
         catch(Exception error){log.warn("No se pudo cerrar WebSocket: {}",error.getClass().getSimpleName());}
     }

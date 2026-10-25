@@ -44,17 +44,31 @@ def verify_public_access(http, public, origin, username, password, account, run,
         sock.close()
     checks['public_https_same_debian_account_and_pages_cors'] = True
     checks['public_wss_authenticated'] = True
+    offline_ticket_response = http.post(public + '/api/auth/ws-ticket',
+        headers={'Authorization': 'Bearer ' + token, 'Origin': origin}, timeout=40)
+    require(offline_ticket_response.status_code == 200, 'No se pudo preparar WSS para la prueba de desconexión.')
+    offline_ticket = offline_ticket_response.json()['ticket']; secrets.append(offline_ticket)
+    offline_socket = websocket.create_connection('wss://' + urlsplit(public).netloc + '/ws?ticket=' + offline_ticket,
+        origin=origin, timeout=15)
     try:
+        require(json.loads(offline_socket.recv()).get('accountId') == account, 'WSS de desconexión no corresponde a la cuenta.')
         # Only the wallet service is paused. Recovery runs even if the verification fails.
         run('systemctl stop billeterax')
         wait_online(False)
+        notice = json.loads(offline_socket.recv())
+        require(notice.get('type') == 'SERVER_UNAVAILABLE' and notice.get('accountId') == account,
+                'La conexión pública no recibió el aviso de Debian desconectado.')
+        checks['public_socket_notified_when_debian_is_offline'] = True
         denied = http.post(public + '/api/auth/login', json={'username': username, 'password': password}, timeout=40)
         require(denied.status_code == 503 and denied.json().get('code') == 'DEBIAN_OFFLINE',
                 'El auxiliar debe rechazar el login mientras Debian no esté disponible.')
         checks['public_login_unavailable_without_debian'] = True
     finally:
-        run('systemctl start billeterax')
-        wait_health()
+        try:
+            offline_socket.close()
+        finally:
+            run('systemctl start billeterax')
+            wait_health()
     wait_online(True)
     require(http.get(public + '/api/auth/me', headers={'Authorization': 'Bearer ' + token}, timeout=40).status_code == 200,
             'El acceso público no se recuperó con la sesión guardada en Debian.')
