@@ -166,3 +166,25 @@ GitHub Actions aprobó backend Java 21 y Android (compilación de app y pruebas,
 Versión pública: https://github.com/29925-mosalvador/BilleteraX/releases/tag/v1.1.0. Incluye BilleteraX-1.1.0.apk, billeterax-1.1.0.jar, INSTRUCCIONES.md y SHA256SUMS.txt. Se comprobaron tamaños y hashes de los cuatro archivos publicados. No se subieron bases reales, contraseñas ni claves privadas. El APK de la versión conserva SHA-256 a6e0cee82b4b45babbc8ae0ceeb182f2e7aaad341c18228c5596191cdf34404b.
 
 GitHub distribuye, compila y prueba; Android ejecuta la app y Debian mantiene Spring Boot/H2. No se abrió el backend a Internet ni se cambió la arquitectura. Siguientes pruebas académicas pendientes: reinicio completo de VM, respuesta perdida después del commit, eventos durante desconexión y perfilado prolongado; informe APA 7 sigue pendiente por solicitud previa.
+
+## Banca web — ampliación del 24 de octubre
+
+El usuario pidió acceso web a las mismas cuentas y probar desde GitHub; eligió preparar un túnel HTTPS de demostración. Se añadió `web/dist` como cliente estático sin dependencias, empaquetado también dentro del JAR por `processResources`. No se recrearon usuarios, cuentas ni bases. Android y Room conservan su arquitectura.
+
+Incluye registro/login sin correo, saldo, historial/búsqueda/filtros, confirmación de depósito/retiro/transferencia/servicios, perfil/logout, modo claro/oscuro y diseño adaptable. El navegador guarda la sesión solo en sessionStorage y conserva el UUID de una operación incierta hasta comprobarla; los reintentos son explícitos.
+
+Backend: CORS con orígenes exactos y preflight antes de autenticación; respuestas de cuentas sin caché; pase WebSocket de 30 segundos, un solo uso y ligado a sesión activa. Se conserva la autenticación por cabecera que usa Android. Nuevas pruebas: 6 integraciones web + 2 de caducidad/concurrencia. Suite total: 30 aprobadas y 1 omitida por la limitación Windows ya documentada; no contar la omitida como aprobada. Cliente web: 6 pruebas aprobadas.
+
+Revisión real del navegador con backend local en memoria, separado de Debian: registro saldo cero, depósito 20, rechazo retiro 200, retiro 3, servicio agua 2, transferencia entrante 4 y saliente 1: saldo 18 e historial de 5 movimientos. Sesión y tema conservados al recargar; búsqueda de Agua devuelve un movimiento. No son movimientos sobre la base Debian del usuario.
+
+Se prepararon `.github/workflows/pages.yml` y `deployment/scripts/start-web-tunnel.py`, con descarga oficial cloudflared 2026.10.3 verificada por SHA-256. El instalador Debian comprueba también página web, CORS de Pages y pase WebSocket no reutilizable. Guía: `docs/WEB.md`.
+
+Pendiente al registrar este avance: completar revisión final de acceso/cierre de sesión, guardar commit y subirlo; activar/verificar GitHub Pages; actualizar JAR en Debian mediante el instalador; iniciar túnel y comprobar HTTPS/WSS reales hacia Debian. No anunciar acceso público ni despliegue Debian hasta tener evidencia. El APK publicado v1.1.0 no cambia.
+
+### Continuación del 25 de octubre — revisión y despliegue Debian
+
+Revisión final real aprobada: logout vuelve a Iniciar sesión, contraseña errónea rechazada y login posterior correcto; se repitieron las cuatro operaciones con una cuenta temporal local, transferencia entrante por WebSocket sin actualizar manualmente, saldo final 18 y 5 movimientos. Se verificó escritorio y teléfono (390 px), sin desbordamiento horizontal del documento, y persistencia de sesión/tema al recargar. Capturas `web-light.jpg` y `web-dark-mobile.jpg`; reporte `web-verification.json`.
+
+El usuario ejecutó el instalador actualizado. `debian-web-upgrade.json` confirma 11 comprobaciones aprobadas, JAR SHA-256 2f2635d81599413a145eafe426db5ce08374ba68e4e3b8c8e87cfdcf748bbb58 y respaldo `/var/lib/billeterax/upgrade-backup.rzpqzBas`. Se conservan CTA001/CTA002 e historial; registro/login/sesión sobreviven al reinicio. Página, CORS de Pages y WebSocket de un solo uso verificados en Debian.
+
+Se activó GitHub Pages con Source: GitHub Actions y HTTPS obligatorio. La integración GitHub ya permite publicar directamente; no pedir otro push manual si sigue disponible. Pendiente: publicar el commit, esperar el workflow y verificar el enlace público; el usuario está iniciando el túnel desde su PowerShell para controlar su duración.

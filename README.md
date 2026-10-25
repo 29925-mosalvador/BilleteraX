@@ -109,3 +109,9 @@ La reconexión usa espera exponencial con variación hasta 30 segundos, ping, co
 - [Rúbrica](docs/testing/RUBRICA.md)
 
 La actualización de autenticación fue desplegada el 24 de octubre de 2026 con respaldo y conservación de cuentas/historial. Evidencia fija: `docs/evidence/debian-auth-upgrade.json`. Los resultados actuales y sus límites figuran en la guía de pruebas; las evidencias del 17 de octubre describen la versión anterior. Reinicio completo de VM, pérdida de respuesta después del commit, perfilado prolongado siguen pendientes. El código, el APK de la versión 1.1.0 y las pruebas automatizadas ya están publicados en GitHub. El informe APA 7 no se redactó por solicitud previa.
+
+## Banca web adicional
+
+El proyecto incluye un cliente web adaptable con registro/login, saldo, historial, cuatro operaciones y modo claro/oscuro. Comparte las cuentas de Android y la base H2 de Debian; no cambia el requisito de Room del proyecto móvil.
+
+Consulta [la guía de banca web](docs/WEB.md) para actualizar Debian, publicar `web/dist` en GitHub Pages y abrir un túnel HTTPS temporal. El workflow de Pages está preparado; comprobar su despliegue antes de anunciar la web como publicada.

@@ -236,6 +236,36 @@ print('Configuracion preparada; credenciales conservadas o generadas localmente'
             auth_ws.close()
         report['checks']['registration_and_user_websocket'] = True
 
+        print('Comprobando banca web, CORS y pase WebSocket de un solo uso...', flush=True)
+        origin = 'https://29925-mosalvador.github.io'
+        page = http.get(base + '/', timeout=10)
+        require(page.status_code == 200 and 'BilleteraX · Banca web' in page.text, 'No se sirve la banca web desde el JAR.')
+        preflight = http.options(base + '/api/auth/ws-ticket', headers={
+            'Origin': origin, 'Access-Control-Request-Method': 'POST',
+            'Access-Control-Request-Headers': 'authorization'}, timeout=10)
+        require(preflight.status_code == 200 and preflight.headers.get('Access-Control-Allow-Origin') == origin,
+                'GitHub Pages no tiene el origen CORS permitido.')
+        ticket_response = http.post(base + '/api/auth/ws-ticket', headers={
+            'Authorization': 'Bearer ' + auth['token'], 'Origin': origin}, timeout=10)
+        require(ticket_response.status_code == 200, 'No se pudo obtener el pase WebSocket del navegador.')
+        ticket = ticket_response.json()['ticket']; tokens.append(ticket)
+        browser_ws = websocket.create_connection(f'ws://{args.host}:8080/ws?ticket={ticket}',
+            origin=origin, timeout=10, http_no_proxy=[args.host])
+        try:
+            require(json.loads(browser_ws.recv()).get('accountId') == test_account, 'El pase no pertenece a la cuenta esperada.')
+        finally:
+            browser_ws.close()
+        try:
+            duplicate = websocket.create_connection(f'ws://{args.host}:8080/ws?ticket={ticket}',
+                origin=origin, timeout=10, http_no_proxy=[args.host])
+        except websocket.WebSocketBadStatusException as denied_ticket:
+            require(denied_ticket.status_code == 401, 'Código inesperado al reutilizar el pase.')
+        else:
+            duplicate.close()
+            raise RuntimeError('El pase WebSocket se pudo reutilizar.')
+        report['checks']['web_page_and_pages_cors'] = True
+        report['checks']['browser_websocket_single_use_ticket'] = True
+
         print('6/6 Reiniciando solo el servicio y verificando persistencia...', flush=True)
         run('systemctl restart billeterax')
         wait_health()
@@ -262,7 +292,7 @@ print('Configuracion preparada; credenciales conservadas o generadas localmente'
         # The smoke user remains a zero-balance test record. Its random password is not saved.
 
         report['accounts'] = {key: value['account'] for key, value in after.items()}
-        report['pending'] = ['Login/registro Android contra Debian', 'Reinicio completo de la VM', 'Perfilado prolongado']
+        report['pending'] = ['Publicación GitHub Pages y prueba HTTPS del túnel', 'Reinicio completo de la VM', 'Perfilado prolongado']
         report['status'] = 'passed'
         print('OK: backend disponible en ' + base + '/. Evidencia: ' + str(evidence))
     except Exception as exc:

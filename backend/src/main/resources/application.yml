@@ -32,3 +32,4 @@ management:
 wallet:
   token-a: ${WALLET_TOKEN_A:}
   token-b: ${WALLET_TOKEN_B:}
+  web-origins: ${WALLET_WEB_ORIGINS:https://29925-mosalvador.github.io}

@@ -30,3 +30,6 @@ tasks.test {
     systemProperty("java.io.tmpdir", testTemp.get().asFile.absolutePath)
 }
 tasks.bootJar { archiveFileName.set("billeterax.jar") }
+
+// The same dependency-free web client is served by Debian and GitHub Pages.
+tasks.processResources { from("../web/dist") { into("static") } }

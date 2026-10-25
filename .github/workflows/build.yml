@@ -3,10 +3,10 @@ name: BilleteraX - compilar y probar
 on:
   push:
     branches: [main]
-    paths: ['backend/**', 'android/**', '.github/workflows/**', '.gitattributes']
+    paths: ['backend/**', 'android/**', 'web/**', '.github/workflows/**', '.gitattributes']
   pull_request:
     branches: [main]
-    paths: ['backend/**', 'android/**', '.github/workflows/**', '.gitattributes']
+    paths: ['backend/**', 'android/**', 'web/**', '.github/workflows/**', '.gitattributes']
   workflow_dispatch:
 
 permissions:

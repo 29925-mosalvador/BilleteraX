@@ -11,12 +11,13 @@ import java.util.Map;
 @EnableWebSocket
 public class SocketConfig implements WebSocketConfigurer {
     private final WalletSocket socket;
-    private final AccountAuth auth;
-    SocketConfig(WalletSocket socket,AccountAuth auth) { this.socket=socket; this.auth=auth; }
+    private final WebOrigins origins;
+    SocketConfig(WalletSocket socket,WebOrigins origins) { this.socket=socket; this.origins=origins; }
     @Override public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(socket,"/ws").addInterceptors(new HandshakeInterceptor() {
+        registry.addHandler(socket,"/ws").setAllowedOrigins(origins.allowed()).addInterceptors(new HandshakeInterceptor() {
             public boolean beforeHandshake(ServerHttpRequest request,ServerHttpResponse response,WebSocketHandler handler,Map<String,Object> attributes) {
-                AuthModels.Principal principal=auth.principal(request.getHeaders().getFirst("Authorization"));
+                AuthModels.Principal principal=request instanceof ServletServerHttpRequest servlet ?
+                    (AuthModels.Principal)servlet.getServletRequest().getAttribute("principal") : null;
                 if(principal==null) return false;
                 attributes.put("accountId",principal.accountId());
                 if(principal.sessionHash()!=null) attributes.put("sessionHash",principal.sessionHash());

@@ -129,3 +129,11 @@ El usuario ejecutó el verificador el 17 de octubre de 2026 a las 21:44–21:45 
 | Publicación del repositorio académico | Repositorio Git local inicializado; sin remoto configurado ni publicación realizada |
 
 No asignar una nota de la rúbrica a partir de este archivo. La defensa puede usar las evidencias Debian aprobadas y debe distinguir los casos pendientes.
+
+## Banca web — 25 de octubre de 2026
+
+Suite backend ampliada: 30 pruebas aprobadas y 1 omitida (PersistenceRestartTest bajo el aislamiento Windows ya documentado). Cliente web: 6 pruebas aprobadas, incluidos céntimos exactos, validación de destino, sesión en cabeceras, contenido mixto y UUID pendiente aislado por cuenta/servidor.
+
+Navegador real: registro/login/logout, contraseña inválida, cuatro operaciones, fondos insuficientes, transferencia entrante automática y búsqueda. Cuenta local temporal: saldo final $18.00, 5 movimientos; temas claro/oscuro y diseño escritorio/teléfono sin desbordamiento horizontal. La recarga conserva sesión/tema. Evidencia: `docs/evidence/web-verification.json`, `web-light.jpg`, `web-dark-mobile.jpg`.
+
+Debian actualizado con 11 comprobaciones aprobadas: datos previos conservados, persistencia tras reiniciar servicio, página web, preflight CORS y pase WebSocket de un solo uso. Evidencia fija `docs/evidence/debian-web-upgrade.json`. Verificación pública de Pages/túnel pendiente hasta registrar evidencia adicional. No se reemplaza el cliente Android ni Room.
