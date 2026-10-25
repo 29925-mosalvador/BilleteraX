@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-25T05:32:04.462779+00:00",
+  "status": "passed",
+  "page_url": "https://29925-mosalvador.github.io/BilleteraX/",
+  "tested_source_commit": "f1f993057872fd5096e0cdccf4817bef029ade7d",
+  "pages_workflow": "https://github.com/29925-mosalvador/BilleteraX/actions/runs/40165182589",
+  "build_workflow": "https://github.com/29925-mosalvador/BilleteraX/actions/runs/40165182591",
+  "ci": {
+    "pages": "success",
+    "backend": "success",
+    "android": "success"
+  },
+  "checks": {
+    "published_html_and_assets_http_200": true,
+    "browser_registration_https_to_debian": true,
+    "browser_websocket_wss_connected": true,
+    "incoming_transfer_updates_without_refresh": true,
+    "deposit": true,
+    "withdrawal": true,
+    "service_payment": true,
+    "outgoing_transfer": true,
+    "page_reload_preserves_balance_and_history": true,
+    "logout_and_login_preserve_balance_and_history": true,
+    "test_session_logged_out_after_verification": true
+  },
+  "test_records": {
+    "new_accounts": 2,
+    "primary_final_balance": "2.00",
+    "primary_transactions": 5,
+    "scope": "simulated laboratory funds; existing user accounts were not used"
+  },
+  "tunnel": "Temporary Cloudflare Quick Tunnel for verification; not a permanent backend hostname",
+  "frontend_loading_fix": {
+    "checked_locally_with_delayed_snapshot_seconds": 4,
+    "previous_account_totals_hidden_while_loading": true,
+    "second_account_final_balance": "0.00",
+    "second_account_final_transactions": 0
+  },
+  "current_jar_sha256": "e637fd9dcb06a909816fb40038d72f651846a990df914f2da64981ec55ef1676",
+  "pending": [
+    "Install the final JAR in Debian to update its embedded web client",
+    "User-controlled demo tunnel URL"
+  ]
+}

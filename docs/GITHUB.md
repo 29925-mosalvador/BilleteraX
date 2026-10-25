@@ -31,3 +31,7 @@ No se versionan H2/SQLite reales, contraseñas, archivos .env, local.properties,
 ## Exposición
 
 Mostrar el repositorio, el APK de Releases y las ejecuciones de Actions. Después demostrar la aplicación móvil junto a Postman: el envío desde el segundo usuario debe aparecer en Android mediante WebSocket, con comprobante guardado en Room. La publicación del código no sustituye esa demostración ni el informe APA 7 pendiente.
+
+## Banca web publicada
+
+[Abrir BilleteraX en la web](https://29925-mosalvador.github.io/BilleteraX/). Pages sirve el cliente estático y el túnel HTTPS conecta con el mismo backend Debian. Ver [la guía web](WEB.md). El usuario puede entrar con la misma cuenta de Android; no se creó una base separada. El APK v1.1.0 continúa siendo compatible; el JAR de esa Release es anterior a la banca web y el backend actualizado se compila desde main.

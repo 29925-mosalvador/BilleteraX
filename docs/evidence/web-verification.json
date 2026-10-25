@@ -27,14 +27,16 @@
     "reload_preserves_session_and_theme": true,
     "desktop_and_mobile_layout": true,
     "mobile_no_document_horizontal_overflow": true,
-    "console_errors_observed": false
+    "console_errors_observed": false,
+    "account_switch_clears_previous_totals_before_network_response": true
   },
   "browser_final_balance": "18.00",
   "browser_final_transactions": 5,
   "debian_upgrade": "debian-web-upgrade.json",
   "jar_sha256": "2f2635d81599413a145eafe426db5ce08374ba68e4e3b8c8e87cfdcf748bbb58",
   "pending": [
-    "GitHub Pages publication",
-    "HTTPS/WSS tunnel verification"
-  ]
+    "Install the final JAR in Debian to update its embedded web client",
+    "User-controlled demo tunnel URL"
+  ],
+  "public_verification": "web-public-verification.json"
 }

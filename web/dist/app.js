@@ -17,10 +17,19 @@ function closeSocket(){clearTimeout(state.reconnect);state.reconnect=null;const 
 function connection(kind,text){$('connection').className=`connection ${kind}`;$('connection').lastElementChild.textContent=text;}
 function client(){return createClient(state.base,state.auth?.token);}
 function saveSession(auth){sessionStorage.setItem('billeterax.session',JSON.stringify({base:state.base,...auth}));}
+function clearAccountView(){
+  for(const id of ['balance','income','expenses','account-id']) $(id).textContent='—';
+  for(const id of ['profile-name','profile-username','profile-account']) $(id).textContent='';
+  $('avatar-button').textContent='BX';$('greeting').textContent='Tu resumen';
+  $('transactions').replaceChildren();$('empty-history').hidden=true;
+  $('history-count').textContent='Sincronizando tu cuenta…';$('last-sync').textContent='Esperando sincronización';
+  $('search').value='';$('direction').value='all';
+}
 function showAccess(message){
   state.epoch++;state.auth=null;state.snapshot=null;closeSocket();sessionStorage.removeItem('billeterax.session');
   document.querySelector('.skip').href='#main';$('bank').hidden=true;$('access').hidden=false;$('password').value='';$('confirm-password').value='';$('transactions').replaceChildren();$('balance').textContent='—';
   if($('operation-dialog').open)$('operation-dialog').close();
+  clearAccountView();
   authMode('login');
   if(message) errorAt('auth-error',message);
 }
@@ -53,7 +62,7 @@ $('auth-form').addEventListener('submit',async e=>{
   catch(err){errorAt('auth-error',err);}finally{$('auth-submit').disabled=false;$('login-tab').disabled=false;$('register-tab').disabled=false;$('server-button').disabled=false;}
 });
 async function enter(auth){
-  state.epoch++;closeSocket();state.auth=auth;state.snapshot=null;state.hiddenBalance=false;
+  state.epoch++;closeSocket();state.auth=auth;state.snapshot=null;state.hiddenBalance=false;clearAccountView();
   document.querySelector('.skip').href='#bank-main';$('access').hidden=true;$('bank').hidden=false;$('bank-error').hidden=true;
   const user=auth.user;$('avatar-button').textContent=user.displayName.split(/\s+/).slice(0,2).map(n=>n[0]).join('').toUpperCase();
   $('profile-name').textContent=user.displayName;$('profile-username').textContent=`@${user.username}`;$('profile-account').textContent=user.accountId;$('account-id').textContent=user.accountId;
@@ -103,6 +112,7 @@ function renderSnapshot(){
 function detail(t){if(t.type==='SERVICE')return `${services[t.service]||'Servicio básico'} · ${t.contract}`;if(t.counterparty)return `${t.type==='TRANSFER_IN'?'Desde':'Hacia'} ${t.counterparty}`;return 'Cuenta BilleteraX';}
 function el(tag,className,text){const e=document.createElement(tag);if(className)e.className=className;if(text!==undefined)e.textContent=text;return e;}
 function renderTransactions(){
+  if(!state.snapshot)return;
   const list=state.snapshot.transactions;let filtered=list;
   if(state.view==='history'){
     const search=$('search').value.trim().toLowerCase(),direction=$('direction').value;

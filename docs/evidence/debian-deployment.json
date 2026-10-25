@@ -1,8 +1,8 @@
 {
-  "date": "2026-10-25T05:14:22.298289+00:00",
+  "date": "2026-10-25T05:30:41.585247+00:00",
   "host": "192.168.18.76",
   "topology": "VirtualBox bridged; Windows -> Debian TCP 22/8080",
-  "jar_sha256": "2f2635d81599413a145eafe426db5ce08374ba68e4e3b8c8e87cfdcf748bbb58",
+  "jar_sha256": "e637fd9dcb06a909816fb40038d72f651846a990df914f2da64981ec55ef1676",
   "status": "passed",
   "checks": {
     "transfer_sha256_and_shell_syntax": true,
@@ -17,7 +17,7 @@
     "user_login_session_and_password_survive_restart": true,
     "logout_revokes_session": true
   },
-  "inspection": "0\nDebianServer\nPRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\nlo               UNKNOWN        127.0.0.1/8 \nenp0s3           UP             192.168.18.76/24 \ndefault via 192.168.18.1 dev enp0s3 proto static metric 100 \n192.168.18.0/24 dev enp0s3 proto kernel scope link src 192.168.18.76 metric 100 \nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        19G  6.1G   12G  35% /",
+  "inspection": "0\nDebianServer\nPRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\nlo               UNKNOWN        127.0.0.1/8 \nenp0s3           UP             192.168.18.76/24 \ndefault via 192.168.18.1 dev enp0s3 proto static metric 100 \n192.168.18.0/24 dev enp0s3 proto kernel scope link src 192.168.18.76 metric 100 \nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        19G  6.2G   12G  36% /",
   "network_profile": "manual\n192.168.18.76/24\n192.168.18.1",
   "pre_upgrade_accounts": {
     "CTA001": {
@@ -34,12 +34,12 @@
     }
   },
   "java": "openjdk version \"21.0.12.1\" 2026-08-18\nOpenJDK Runtime Environment (build 21.0.12.1+1-1-deb13u1-Debian)\nOpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-deb13u1-Debian, mixed mode, sharing)",
-  "staging_directory": "/var/tmp/billeterax-deploy.uR8qrk2z",
-  "installation": "Respaldo previo a la actualización: /var/lib/billeterax/upgrade-backup.rzpqzBas\n● billeterax.service - BilleteraX Spring Boot laboratory backend\n     Loaded: loaded (/etc/systemd/system/billeterax.service; enabled; preset: enabled)\n     Active: active (running) since Sun 2026-10-25 00:14:29 -05; 23ms ago\n Invocation: 0a81725ff02d4a429faabb5f726bdaf1\n   Main PID: 3282 ((java))\n      Tasks: 1 (limit: 9447)\n     Memory: 1.7M (peak: 1.8M)\n        CPU: 11ms\n     CGroup: /system.slice/billeterax.service\n             └─3282 \"(java)\"\n\nOct 25 00:14:29 DebianServer systemd[1]: Started billeterax.service - BilleteraX Spring Boot laboratory backend.",
-  "service": "enabled\nactive\nMainPID=3282\nUser=billeterax",
+  "staging_directory": "/var/tmp/billeterax-deploy.yWzomYLf",
+  "installation": "Respaldo previo a la actualización: /var/lib/billeterax/upgrade-backup.ZirzkvVn\n● billeterax.service - BilleteraX Spring Boot laboratory backend\n     Loaded: loaded (/etc/systemd/system/billeterax.service; enabled; preset: enabled)\n     Active: active (running) since Sun 2026-10-25 00:30:48 -05; 27ms ago\n Invocation: 90d9fdd34e604cacbbd1c8a865c92384\n   Main PID: 3879 ((java))\n      Tasks: 1 (limit: 9447)\n     Memory: 1.7M (peak: 1.7M)\n        CPU: 12ms\n     CGroup: /system.slice/billeterax.service\n             └─3879 \"(java)\"\n\nOct 25 00:30:48 DebianServer systemd[1]: Started billeterax.service - BilleteraX Spring Boot laboratory backend.",
+  "service": "enabled\nactive\nMainPID=3879\nUser=billeterax",
   "auth_smoke_user": {
-    "username": "check_4c306575ddab",
-    "accountId": "CTA4333103260",
+    "username": "check_c207b683e1c8",
+    "accountId": "CTA8985684264",
     "balance": 0
   },
   "accounts": {

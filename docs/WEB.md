@@ -41,7 +41,7 @@ Para probar solo en la red local, abre `http://192.168.18.76:8080/` en Windows o
 
 Sube los cambios a `main`. En GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**. El workflow `.github/workflows/pages.yml` prueba el JavaScript y publica únicamente `web/dist`. También se puede ejecutar desde Actions → BilleteraX - banca web en GitHub Pages → Run workflow.
 
-La dirección prevista del proyecto es `https://29925-mosalvador.github.io/BilleteraX/`. Solo se considera publicada cuando el despliegue termina correctamente y esa dirección responde con la banca web.
+Publicada y verificada en [GitHub Pages](https://29925-mosalvador.github.io/BilleteraX/). El despliegue inicial y la prueba HTTPS/WSS hacia Debian están registrados en `docs/evidence/web-public-verification.json`.
 
 No se necesitan contraseñas, tokens de usuario ni claves SSH en GitHub Secrets. Para otro dueño/repositorio, ajustar las direcciones públicas documentadas y `WALLET_WEB_ORIGINS`.
 
@@ -91,3 +91,5 @@ Abre `http://127.0.0.1:5173` y elige el backend local en Configurar conexión. `
 Pruebas backend: `WebAccessTest` cubre CORS, aislamiento, servicio de archivos, WebSocket del navegador y revocación; `SocketTicketsTest` cubre caducidad y consumo concurrente. Las pruebas previas de Android/REST siguen siendo aplicables y se ejecutan en CI cuando cambia `web/**`.
 
 Referencias: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [workflows de Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/), [WebSocket en el navegador](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/WebSocket).
+
+El APK v1.1.0 publicado sigue siendo compatible. El JAR de esa Release corresponde a la entrega anterior a la banca web; para el backend web usar la compilación actual de `main` o el artefacto backend del workflow actual, y el instalador de esta guía.
