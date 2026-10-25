@@ -115,3 +115,5 @@ La actualización de autenticación fue desplegada el 24 de octubre de 2026 con 
 El proyecto incluye un cliente web adaptable con registro/login, saldo, historial, cuatro operaciones y modo claro/oscuro. Comparte las cuentas de Android y la base H2 de Debian; no cambia el requisito de Room del proyecto móvil.
 
 Consulta [la guía de banca web](docs/WEB.md) para actualizar Debian, publicar `web/dist` en GitHub Pages y abrir un túnel HTTPS temporal. La web ya está publicada en [GitHub Pages](https://29925-mosalvador.github.io/BilleteraX/). Para usar las cuentas, abrir el enlace que imprime el túnel HTTPS o configurar su dirección en el acceso. Debian mantiene el backend y H2.
+
+![Banca web conectada a Debian](docs/evidence/web-public.jpg)

@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-25T05:16:46.783471+00:00",
+  "date": "2026-10-25T00:16:46.783471-05:00",
   "status": "passed",
   "backend_tests": {
     "tests": 31,
@@ -34,9 +34,7 @@
   "browser_final_transactions": 5,
   "debian_upgrade": "debian-web-upgrade.json",
   "jar_sha256": "2f2635d81599413a145eafe426db5ce08374ba68e4e3b8c8e87cfdcf748bbb58",
-  "pending": [
-    "Install the final JAR in Debian to update its embedded web client",
-    "User-controlled demo tunnel URL"
-  ],
-  "public_verification": "web-public-verification.json"
+  "pending": [],
+  "public_verification": "web-public-verification.json",
+  "final_debian_evidence": "debian-web-final.json"
 }

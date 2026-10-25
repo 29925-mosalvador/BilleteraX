@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-25T05:32:04.462779+00:00",
+  "date": "2026-10-25T00:32:04.462779-05:00",
   "status": "passed",
   "page_url": "https://29925-mosalvador.github.io/BilleteraX/",
   "tested_source_commit": "f1f993057872fd5096e0cdccf4817bef029ade7d",
@@ -37,8 +37,13 @@
     "second_account_final_transactions": 0
   },
   "current_jar_sha256": "e637fd9dcb06a909816fb40038d72f651846a990df914f2da64981ec55ef1676",
-  "pending": [
-    "Install the final JAR in Debian to update its embedded web client",
-    "User-controlled demo tunnel URL"
-  ]
+  "pending": [],
+  "final_source_commit": "09b0516bae850a95eb83d0d98bca1d7ad737ca54",
+  "final_pages_workflow": "https://github.com/29925-mosalvador/BilleteraX/actions/runs/40165969263",
+  "final_build_workflow": "https://github.com/29925-mosalvador/BilleteraX/actions/runs/40165969381",
+  "final_debian_evidence": "debian-web-final.json",
+  "final_public_client_matches_local": true,
+  "web_account_survived_final_upgrade": true,
+  "agent_test_tunnel_and_preview_stopped": true,
+  "operational_note": "Keep Debian running and start the user-controlled demo tunnel in Windows. Open the link printed by start-web-tunnel.py."
 }

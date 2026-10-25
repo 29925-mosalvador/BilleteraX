@@ -198,3 +198,13 @@ Se abrió un túnel temporal propio del agente y se comprobó desde la página p
 Se detectó que, al cambiar de cuenta, totales y recuento anteriores podían quedar visibles durante la consulta inicial. Se corrigió limpiando la vista al salir/entrar y protegiendo la búsqueda antes de disponer del snapshot. Prueba real local con respuesta demorada cuatro segundos: solo indicadores de carga; luego segunda cuenta con saldo cero e historial vacío. Se recompiló el JAR con SHA-256 e637fd9dcb06a909816fb40038d72f651846a990df914f2da64981ec55ef1676; se solicitó al usuario instalarlo una última vez para que también la web integrada de Debian incluya esa corrección. El API Java no cambió desde la actualización ya verificada.
 
 Pendiente: publicar esta corrección visual y las evidencias finales; confirmar el resultado del instalador final y la dirección del túnel que mantiene el usuario. El túnel propio de verificación y los servidores locales de pruebas se deben detener al cerrar esta sesión; no detener procesos ajenos. Para futuras demostraciones, usar start-web-tunnel.py desde PowerShell del usuario y abrir el enlace que imprime.
+
+### Cierre verificado — 25 de octubre
+
+La corrección se publicó en 09b0516bae850a95eb83d0d98bca1d7ad737ca54. Pages aprobó en 40165969263 y backend/Android en 40165969381. El JavaScript público coincide con el local por SHA-256.
+
+El último instalador aprobó 11 comprobaciones con JAR e637fd9dcb06a909816fb40038d72f651846a990df914f2da64981ec55ef1676 y respaldo /var/lib/billeterax/upgrade-backup.ZirzkvVn. Debian sirve la corrección. Nuevo login desde Pages tras actualizar Debian conservó saldo 2.00, cinco movimientos y WSS en línea. No hace falta otro despliegue de esta ampliación.
+
+Se cerró la sesión de pruebas y se detuvieron únicamente el túnel y servidores locales del agente. Para demostrar la web: mantener Debian encendido, ejecutar start-web-tunnel.py desde PowerShell del usuario y abrir ABRE LA BANCA WEB. Mantener esa ventana abierta; Ctrl+C cierra el acceso temporal. No hace falta cambiar GitHub cuando cambie el túnel.
+
+La banca web está completada y verificada. Siguen los pendientes académicos anteriores: reinicio completo de VM, pérdida de respuesta posterior al commit Android, perfilado prolongado e informe APA 7 solicitado para más adelante.
