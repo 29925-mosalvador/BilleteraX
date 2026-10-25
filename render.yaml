@@ -1,0 +1,19 @@
+# Only a volatile public inbox. All accounts and balances stay on Debian.
+services:
+  - type: web
+    name: billeterax-access
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    dockerfilePath: ./gateway/Dockerfile
+    dockerContext: .
+    healthCheckPath: /actuator/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: GATEWAY_AGENT_TOKEN
+        generateValue: true
+      - key: GATEWAY_NODE_ID
+        value: debian-primary
+      - key: WALLET_WEB_ORIGINS
+        value: https://29925-mosalvador.github.io

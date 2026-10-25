@@ -1,0 +1,54 @@
+package ec.edu.espe.billeterax.gateway;
+
+import com.fasterxml.jackson.databind.*;
+import org.springframework.stereotype.Component;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.socket.*;
+import org.springframework.web.socket.handler.*;
+import java.time.Instant;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Component
+public class SocketHub extends TextWebSocketHandler {
+    private final Map<String,WebSocketSession> sessions=new ConcurrentHashMap<>();
+    private final Map<String,Instant> revoked=new ConcurrentHashMap<>();
+    private final ObjectMapper mapper;
+    private final MessageBroker broker;
+    SocketHub(ObjectMapper mapper,MessageBroker broker){this.mapper=mapper;this.broker=broker;}
+    private boolean valid(WebSocketSession session){
+        Object hash=session.getAttributes().get("sessionHash"),expires=session.getAttributes().get("expiresAt");
+        return broker.online() && !(hash instanceof String h && revoked.containsKey(h)) && !(expires instanceof Instant time && !time.isAfter(Instant.now()));
+    }
+    @Override public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        var safe=new ConcurrentWebSocketSessionDecorator(session,2000,65536);
+        if(sessions.size()>=128 || !valid(safe)){safe.close(CloseStatus.POLICY_VIOLATION);return;}
+        sessions.put(session.getId(),safe);
+        if(!valid(safe)){close(safe,CloseStatus.POLICY_VIOLATION);return;}
+        safe.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type","CONNECTED","accountId",safe.getAttributes().get("accountId")))));
+    }
+    @Override public void afterConnectionClosed(WebSocketSession session,CloseStatus status){sessions.remove(session.getId());}
+    @Override public void handleTransportError(WebSocketSession session,Throwable error){close(session,CloseStatus.SERVER_ERROR);}
+    private void close(WebSocketSession session,CloseStatus reason){sessions.remove(session.getId());try{session.close(reason);}catch(Exception ignored){}}
+    void notices(List<JsonNode> notices,boolean reset){
+        if(reset)for(var session:sessions.values())close(session,CloseStatus.SERVICE_RESTARTED);
+        if(notices==null)return;
+        for(var notice:notices)if("REVOKED".equals(notice.path("kind").asText())){
+            String hash=notice.path("sessionHash").asText();if(hash.length()!=64)continue;
+            revoked.put(hash,Instant.now().plusSeconds(60));
+            for(var session:sessions.values())if(hash.equals(session.getAttributes().get("sessionHash")))close(session,CloseStatus.POLICY_VIOLATION);
+        }
+        for(var notice:notices)if("EVENT".equals(notice.path("kind").asText())){
+            JsonNode event=notice.path("event");String account=event.path("accountId").asText();
+            for(var session:sessions.values()){
+                if(!valid(session)){close(session,CloseStatus.POLICY_VIOLATION);continue;}
+                if(!account.equals(session.getAttributes().get("accountId")))continue;
+                try{if(session.isOpen())session.sendMessage(new TextMessage(mapper.writeValueAsString(event)));}catch(Exception error){close(session,CloseStatus.SERVER_ERROR);}
+            }
+        }
+    }
+    @Scheduled(fixedDelay=1000) void checkAvailability(){
+        revoked.entrySet().removeIf(e -> !e.getValue().isAfter(Instant.now()));
+        for(var session:sessions.values())if(!valid(session))close(session,CloseStatus.SERVICE_RESTARTED);
+    }
+}

@@ -1,5 +1,5 @@
 import {hydrateIcons,icon} from './icons.js';
-import {ApiError,normalizeBase,parseAmount,centsOf,money,totals,makeOperation,endpoints,createClient,savePending,loadPending,clearPending} from './core.js';
+import {ApiError,normalizeBase,connectionBase,parseAmount,centsOf,money,totals,makeOperation,endpoints,createClient,savePending,loadPending,clearPending} from './core.js';
 const $=id=>document.getElementById(id);
 const all=selector=>document.querySelectorAll(selector);
 const state={base:'',auth:null,snapshot:null,view:'home',mode:'login',socket:null,reconnect:null,epoch:0,operation:null,review:false,busy:false,hiddenBalance:false,refreshing:false,refreshAgain:false};
@@ -177,9 +177,11 @@ window.addEventListener('online',()=>{if(state.auth){closeSocket();connectSocket
 document.addEventListener('visibilitychange',()=>{if(!document.hidden && state.auth){refresh();if(!state.socket){clearTimeout(state.reconnect);connectSocket(state.epoch);}}});
 async function start(){
   try{
-    const urlBase=new URLSearchParams(location.search).get('servidor');
-    const base=urlBase||storeRead(localStorage,'billeterax.server')||window.BILLETERAX_CONFIG?.apiBase||(!location.hostname.endsWith('github.io')?location.origin:'');
-    if(base)setBase(normalizeBase(base,location.protocol));
+    const managed=window.BILLETERAX_CONFIG?.managed===true;
+    $('server-button').hidden=managed;
+    const urlBase=managed?null:new URLSearchParams(location.search).get('servidor');
+    const base=connectionBase(window.BILLETERAX_CONFIG,{query:urlBase,saved:storeRead(localStorage,'billeterax.server'),origin:location.origin,protocol:location.protocol});
+    if(base)setBase(base);
     if(urlBase)history.replaceState(null,'',location.pathname);
     const saved=JSON.parse(storeRead(sessionStorage,'billeterax.session')||'null');
     if(saved && saved.base===state.base && new Date(saved.expiresAt)>new Date()){

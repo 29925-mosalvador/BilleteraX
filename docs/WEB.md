@@ -15,49 +15,19 @@ Los importes son simulados. Los depósitos de laboratorio añaden saldo sin una 
 
 ## Arquitectura y alojamiento
 
-```text
-GitHub Pages (HTML/CSS/JS) ── HTTPS / WSS ── Cloudflare Tunnel en Windows
-                                                    │ HTTP por la LAN
-Android Kotlin + Room ────────────────────────── Spring Boot en Debian
-                                                    │
-                                               H2 persistente
-```
+Por petición del usuario se está sustituyendo el acceso temporal por un auxiliar público HTTPS fijo. Debian conserva Spring Boot y la única base H2 bancaria; recoge mensajes de negocio por conexiones salientes. No se configura el router ni se utilizan túneles de red.
 
-Pages solo sirve la interfaz. Debian mantiene las cuentas y operaciones. Para la demostración, Windows y Debian deben seguir encendidos y comunicándose. El túnel no abre puertos del router y solo apunta al servicio HTTP 8080, no a SSH o H2. Su dirección cambia cada vez que se inicia y deja de funcionar al cerrar el proceso. No ofrece alojamiento permanente.
+El código y las pruebas locales están preparados. **La activación real del alojamiento, la conexión de Debian y las direcciones predeterminadas de los clientes siguen pendientes hasta verificar el nuevo servicio público.** La URL actual de Pages distribuye la interfaz; por sí sola no ejecuta el backend.
 
-## 1. Actualizar Debian
+La configuración, pruebas y límites están en [Acceso desde Internet](ACCESO_INTERNET.md). Una vez activado, los visitantes solo abren la página, se registran o inician sesión. No deben introducir direcciones de servidor. Para la red local sigue disponible `http://192.168.18.76:8080/`.
 
-Desde PowerShell, después de compilar el JAR actual:
+`deployment/scripts/start-web-tunnel.py` se conserva únicamente como herramienta de la demostración anterior. No forma parte del nuevo procedimiento. Las evidencias antiguas con túnel describen esa versión, no la disponibilidad del nuevo alojamiento.
 
-```powershell
-& 'C:\Users\matsa\AppData\Local\Programs\Python\Python312\python.exe' 'C:\Proyectos\BilleteraX\deployment\scripts\deploy-debian.py' --skip-packages
-```
+## Publicar la interfaz en GitHub Pages
 
-Introduce la contraseña SSH en la terminal. El instalador respalda H2/JAR/configuración, conserva cuentas e historial y verifica registro/login, WebSocket Android, página web, CORS de Pages, pase WebSocket de un solo uso y persistencia después de reiniciar el servicio. No guarda la contraseña. La evidencia queda en `docs/evidence/debian-deployment.json`.
+El workflow `.github/workflows/pages.yml` prueba el cliente y publica `web/dist` en [GitHub Pages](https://29925-mosalvador.github.io/BilleteraX/). Después de verificar el auxiliar real, `config.js` debe indicar su origen HTTPS fijo y `managed:true`. No guardar secretos del agente, contraseñas de usuarios o credenciales SSH en esa configuración pública.
 
-Para probar solo en la red local, abre `http://192.168.18.76:8080/` en Windows o el teléfono conectado a la misma red.
-
-## 2. Publicar la interfaz en GitHub Pages
-
-Sube los cambios a `main`. En GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**. El workflow `.github/workflows/pages.yml` prueba el JavaScript y publica únicamente `web/dist`. También se puede ejecutar desde Actions → BilleteraX - banca web en GitHub Pages → Run workflow.
-
-Publicada y verificada en [GitHub Pages](https://29925-mosalvador.github.io/BilleteraX/). El despliegue inicial y la prueba HTTPS/WSS hacia Debian están registrados en `docs/evidence/web-public-verification.json`.
-
-No se necesitan contraseñas, tokens de usuario ni claves SSH en GitHub Secrets. Para otro dueño/repositorio, ajustar las direcciones públicas documentadas y `WALLET_WEB_ORIGINS`.
-
-## 3. Iniciar el túnel de la demostración
-
-Desde tu PowerShell:
-
-```powershell
-& 'C:\Users\matsa\AppData\Local\Programs\Python\Python312\python.exe' 'C:\Proyectos\BilleteraX\deployment\scripts\start-web-tunnel.py'
-```
-
-El script descarga cloudflared 2026.10.3 desde el repositorio oficial y verifica el SHA-256 publicado antes de ejecutarlo. Lo guarda en `.tools/cloudflared`, fuera de Git; no instala un servicio. Antes de publicar, comprueba que Debian ya sirve el backend actualizado.
-
-Cuando aparezca **ABRE LA BANCA WEB**, abre ese enlace. Incluye la dirección HTTPS del túnel, que la interfaz recuerda en ese navegador. También puedes abrir Pages y pulsar «Configurar conexión al servidor», pegar el enlace `https://….trycloudflare.com` y comprobarlo. No escribas una URL de servidor que no controles: es el destino del login.
-
-Deja la terminal abierta. **Ctrl+C** detiene el túnel. No hace falta volver a subir archivos a GitHub cuando cambia el túnel: abre el nuevo enlace que imprime el script. La web de GitHub necesita HTTPS; un destino `http://192.168.18.76:8080` desde una página HTTPS será rechazado por contenido mixto.
+El mismo cliente se empaqueta dentro del JAR Debian y del auxiliar. Este último genera su configuración de mismo origen; no hay una segunda implementación de la banca.
 
 ## Demostración
 
@@ -90,6 +60,6 @@ Abre `http://127.0.0.1:5173` y elige el backend local en Configurar conexión. `
 
 Pruebas backend: `WebAccessTest` cubre CORS, aislamiento, servicio de archivos, WebSocket del navegador y revocación; `SocketTicketsTest` cubre caducidad y consumo concurrente. Las pruebas previas de Android/REST siguen siendo aplicables y se ejecutan en CI cuando cambia `web/**`.
 
-Referencias: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [workflows de Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/), [WebSocket en el navegador](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/WebSocket).
+Referencias: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [workflows de Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [WebSocket en el navegador](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/WebSocket).
 
 El APK v1.1.0 publicado sigue siendo compatible. El JAR de esa Release corresponde a la entrega anterior a la banca web; para el backend web usar la compilación actual de `main` o el artefacto backend del workflow actual, y el instalador de esta guía.

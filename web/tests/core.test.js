@@ -36,3 +36,13 @@ test('network and unreadable responses do not pretend an operation was rejected'
   await assert.rejects(createClient('https://server.example','',async()=>{throw new Error('offline');})('/api/auth/me'),e=>e instanceof ApiError && e.status===0);
   await assert.rejects(createClient('https://server.example','',async()=>({status:502,ok:false,json:async()=>{throw new Error('html');}}))('/api/auth/me'),e=>e.status===502);
 });
+
+
+test('managed public endpoint ignores old servers and address parameters',async()=>{
+  const {connectionBase}=await import('../dist/core.js');
+  const context={query:'https://unexpected.example',saved:'https://obsolete.example',origin:'https://29925-mosalvador.github.io',protocol:'https:'};
+  assert.equal(connectionBase({apiBase:'https://wallet.example',managed:true},context),'https://wallet.example');
+  assert.equal(connectionBase({managed:true},{...context,origin:'https://wallet.example'}),'https://wallet.example');
+  assert.equal(connectionBase({},context),'https://unexpected.example');
+  assert.throws(()=>connectionBase({apiBase:'http://wallet.example',managed:true},context),/HTTPS/);
+});

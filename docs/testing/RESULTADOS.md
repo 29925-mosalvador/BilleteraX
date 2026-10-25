@@ -143,3 +143,14 @@ Prueba pública completada: GitHub Pages → HTTPS/Cloudflare → Debian y WSS a
 Se corrigió además la vista al cambiar de cuenta: durante la carga no muestra totales ni recuentos anteriores. Se comprobó localmente con un proxy que demora cuatro segundos el snapshot; aparecen indicadores de carga y luego saldo cero/historial vacío para la segunda cuenta. Esta corrección del cliente requiere publicar el archivo web y actualizar la copia incluida en el JAR de Debian.
 
 Corrección publicada y desplegada en Debian: commit 09b0516, Pages aprobado en 40165969263 y backend/Android en 40165969381. Instalador final: 11 comprobaciones aprobadas; evidencia fija docs/evidence/debian-web-final.json. Nuevo login desde Pages después de actualizar Debian conservó saldo 2.00, cinco movimientos y WSS en línea. Se cerró la sesión y se detuvieron el túnel y servidores de prueba del agente. Para demostrar la web, iniciar el túnel desde PowerShell del usuario.
+
+
+## Auxiliar público sin túneles — 25 de octubre de 2026
+
+- Backend: 34 pruebas, 33 aprobadas y una omitida por la limitación Windows de reapertura H2 documentada anteriormente. Se añaden tres pruebas de mensajes sobre los servicios existentes: aislamiento, idempotencia, validación, caducidad, logout y pases de un solo uso.
+- Auxiliar: seis pruebas aprobadas (cuatro de cola y dos de HTTP/WebSocket). Cubren principal ausente, capacidad, caducidad, respuesta pendiente, autenticación del agente, origen CORS, límite de cuerpo, configuración automática, aislamiento de avisos y revocación.
+- Web: siete pruebas aprobadas; el destino administrado ignora direcciones antiguas y parámetros de servidor. Se revisó el registro en el navegador con el auxiliar local, sin pedir URL, y estado WebSocket En línea.
+- Extremo a extremo: 15 comprobaciones aprobadas con dos JAR reales y una H2 desechable en memoria. Incluyen cuatro operaciones, transferencia entrante desde el principal, WebSocket web/nativo, caída del auxiliar después del commit antes de recibir respuesta, reintento con mismo UUID, revocación y principal desconectado/recuperado.
+- Evidencia: `docs/evidence/public-access-local.json`. Reproducible con `deployment/scripts/verify-public-access-local.py`; integrado en CI.
+
+Estas pruebas no actualizaron Debian ni el router y no demuestran todavía un alojamiento público activo o una ejecución de Android en un dispositivo con la nueva URL. La persistencia de Debian pertenece a las evidencias anteriores; no se atribuye a esta H2 en memoria. El APK publicado continúa apuntando a la LAN hasta la configuración pública final.

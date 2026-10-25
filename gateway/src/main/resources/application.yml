@@ -1,0 +1,26 @@
+server:
+  address: 0.0.0.0
+  port: ${PORT:8088}
+  forward-headers-strategy: framework
+  error:
+    include-message: never
+spring:
+  application:
+    name: BilleteraX-public-access
+  threads:
+    virtual:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+gateway:
+  agent-token: ${GATEWAY_AGENT_TOKEN:}
+  node-id: ${GATEWAY_NODE_ID:debian-primary}
+  web-origins: ${WALLET_WEB_ORIGINS:https://29925-mosalvador.github.io}
+  offline-seconds: 6
+  request-seconds: 25

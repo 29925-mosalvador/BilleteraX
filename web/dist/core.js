@@ -2,10 +2,16 @@ export class ApiError extends Error {
   constructor(message,status=0,code='NETWORK_ERROR'){ super(message); this.status=status; this.code=code; }
 }
 export function normalizeBase(value,pageProtocol='https:') {
-  let u; try {u=new URL(value);} catch {throw new Error('Introduce una dirección válida, por ejemplo https://servidor.trycloudflare.com');}
+  let u; try {u=new URL(value);} catch {throw new Error('Introduce una dirección válida, por ejemplo https://billetera.ejemplo.com');}
   if(!['http:','https:'].includes(u.protocol) || u.username || u.password || u.search || u.hash || !['','/'].includes(u.pathname)) throw new Error('Usa solo la dirección del servidor, sin rutas, contraseñas ni parámetros.');
-  if(pageProtocol==='https:' && u.protocol!=='https:') throw new Error('Esta página necesita un servidor HTTPS. Usa el enlace del túnel.');
+  if(pageProtocol==='https:' && u.protocol!=='https:') throw new Error('Esta página necesita una conexión HTTPS segura.');
   return u.origin;
+}
+export function connectionBase(config={}, {query='',saved='',origin='',protocol='https:'}={}) {
+  const managed=config.managed===true;
+  const localOrigin=origin && !new URL(origin).hostname.endsWith('github.io')?origin:'';
+  const value=managed?(config.apiBase||origin):(query||saved||config.apiBase||localOrigin);
+  return value?normalizeBase(value,protocol):'';
 }
 export function parseAmount(value){
   const text=value.trim().replace(',','.');
@@ -73,7 +79,7 @@ export function createClient(base,token='',fetcher=fetch){
       return data;
     }catch(e){
       if(e instanceof ApiError) throw e;
-      throw new ApiError('No pudimos contactar al servidor. Comprueba que Debian y el túnel estén activos.');
+      throw new ApiError('No pudimos contactar al servidor. Comprueba la conexión e inténtalo nuevamente.');
     }finally{clearTimeout(timer);}
   };
 }

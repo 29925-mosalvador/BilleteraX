@@ -33,3 +33,5 @@ tasks.bootJar { archiveFileName.set("billeterax.jar") }
 
 // The same dependency-free web client is served by Debian and GitHub Pages.
 tasks.processResources { from("../web/dist") { into("static") } }
+
+sourceSets.main { java.srcDir("../protocol/src/main/java") }

@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-25T06:27:30.001741+00:00",
+  "status": "passed",
+  "environment": "nt loopback, actual Java gateway and Java primary; disposable in-memory DB; no router or Debian changes",
+  "checks": {
+    "auxiliar solo no permite iniciar sesión": true,
+    "web y servidor principal usan la misma cuenta": true,
+    "aislamiento de cuentas en acceso público": true,
+    "WebSocket web autenticado con pase de un uso": true,
+    "reintento de depósito no duplica saldo": true,
+    "transferencia local llega al navegador por WebSocket": true,
+    "cuatro operaciones y transferencia entrante, saldo e historial correctos": true,
+    "protocolo WebSocket de Android compatible": true,
+    "respuesta HTTP interrumpida después del commit": true,
+    "commit en principal sobrevive a la caída del auxiliar": true,
+    "respuesta perdida y reinicio del auxiliar: mismo UUID sin duplicados": true,
+    "logout directo revoca también WebSocket público": true,
+    "desconexión del principal cierra WebSockets públicos": true,
+    "sin Debian no se aceptan login ni operaciones": true,
+    "recuperación automática tras encender el principal de prueba": true
+  },
+  "gateway_jar_sha256": "0aee89fd555c4864ecc324599004b68a3f32a4da30e2a0ba32b1af0e531da5d6",
+  "backend_jar_sha256": "924ce57316677c2e7fd1ad1fd36b9c5cde768f64f4cfe0f84daa950e8fbaa38a",
+  "limitations": [
+    "No public host deployed yet",
+    "No Android device execution in this check",
+    "Authoritative Debian persistence is covered by earlier deployment evidence, not this in-memory fixture"
+  ]
+}

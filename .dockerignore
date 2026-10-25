@@ -1,0 +1,17 @@
+.git
+.tools
+**/build
+**/.gradle
+**/data
+**/local.properties
+**/*.mv.db
+**/*.trace.db
+**/*.env
+**/.env
+**/*.key
+**/*.pem
+**/*.keystore
+**/*.jks
+android
+docs
+outputs

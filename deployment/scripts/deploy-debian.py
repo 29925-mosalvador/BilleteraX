@@ -5,6 +5,7 @@ import getpass
 import hashlib
 import ipaddress
 import json
+from urllib.parse import urlsplit
 from pathlib import Path
 import shlex
 import secrets
@@ -29,7 +30,14 @@ def main():
     parser.add_argument('--host', default='192.168.18.76')
     parser.add_argument('--skip-packages', action='store_true', help='Conservar Java/curl instalados durante una actualizacion.')
     parser.add_argument('--check-local', action='store_true', help='Validar archivos/dependencias sin conectar ni instalar.')
+    parser.add_argument('--gateway-url', help='Dirección HTTPS fija del auxiliar público.')
     args = parser.parse_args()
+    if args.gateway_url:
+        parsed = urlsplit(args.gateway_url)
+        require(parsed.scheme == 'https' and parsed.hostname and not parsed.username and not parsed.password
+                and parsed.port in (None, 443) and parsed.path in ('', '/') and not parsed.query and not parsed.fragment,
+                'El auxiliar requiere una dirección HTTPS sin rutas, credenciales ni parámetros.')
+        args.gateway_url = args.gateway_url.rstrip('/')
     ipaddress.IPv4Address(args.host)
     jar = ROOT / 'backend/build/libs/billeterax.jar'
     assets = [ROOT / p for p in ('deployment/debian/install.sh',
@@ -155,8 +163,19 @@ def main():
         _, missing = run('test -f /etc/billeterax/billeterax.env', allowed=(0,1))
         if missing:
             _, initial = run(install, allowed=(2,))
+        if args.gateway_url:
+            # A private SFTP payload avoids putting infrastructure credentials in SSH command arguments.
+            gateway_key = getpass.getpass('GATEWAY_AGENT_TOKEN del auxiliar (no se guarda en Windows): ')
+            require(32 <= len(gateway_key) <= 256 and all(c.isascii() and (c.isalnum() or c in '_-+/=') for c in gateway_key),
+                    'Copia la clave de conexión de al menos 32 caracteres generada por el alojamiento.')
+            tokens.append(gateway_key)
+            with ssh.open_sftp() as sftp:
+                with sftp.open(staging + '/public-access.json', 'w') as remote:
+                    remote.chmod(0o600)
+                    remote.write(json.dumps({'url': args.gateway_url, 'token': gateway_key}))
+            gateway_key = None
         # Generate secrets on Debian. Preserve all existing real credentials and DB data.
-        configure = '''import os, pathlib, secrets, shutil, time
+        configure = '''import os, pathlib, secrets, shutil, time, json
 p = pathlib.Path('/etc/billeterax/billeterax.env')
 raw = p.read_text()
 values = dict(line.split('=', 1) for line in raw.splitlines() if line and not line.startswith('#') and '=' in line)
@@ -172,6 +191,12 @@ if not all(values.get(key) for key in keys):
 values['SPRING_PROFILES_ACTIVE'] = 'debian'
 values['SERVER_ADDRESS'] = HOST
 values['SERVER_PORT'] = '8080'
+if GATEWAY_FILE:
+    access_path = pathlib.Path(GATEWAY_FILE)
+    access = json.loads(access_path.read_text())
+    values.update(GATEWAY_ENABLED='true', GATEWAY_URL=access['url'],
+                  GATEWAY_AGENT_TOKEN=access['token'], GATEWAY_NODE_ID='debian-primary')
+    access_path.unlink()
 shutil.copy2(p, p.with_name('billeterax.env.backup-' + str(time.time_ns())))
 tmp = p.with_name('billeterax.env.new-' + str(time.time_ns()))
 fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o640)
@@ -181,7 +206,7 @@ os.chown(tmp, p.stat().st_uid, p.stat().st_gid)
 os.replace(tmp, p)
 print('Configuracion preparada; credenciales conservadas o generadas localmente')
 '''
-        run("python3 - <<'BILLETERAX_CONFIG'\nHOST = " + repr(args.host) + '\n' + configure + '\nBILLETERAX_CONFIG')
+        run("python3 - <<'BILLETERAX_CONFIG'\nHOST = " + repr(args.host) + '\nGATEWAY_FILE = ' + repr(staging + '/public-access.json' if args.gateway_url else None) + '\n' + configure + '\nBILLETERAX_CONFIG')
         print('4/6 Instalando el servicio systemd...', flush=True)
         installed, _ = run(install)
         report['installation'] = installed
@@ -197,7 +222,7 @@ print('Configuracion preparada; credenciales conservadas o generadas localmente'
                 config = dict(line.split('=', 1) for line in file.read().decode().splitlines()
                               if line and not line.startswith('#') and '=' in line)
         tokens.extend([config['WALLET_TOKEN_A'], config['WALLET_TOKEN_B'], config['DB_PASSWORD']])
-        before = {account: snapshot(account, token) for account, token in zip(('CTA001', 'CTA002'), tokens)}
+        before = {account: snapshot(account, token) for account, token in zip(('CTA001', 'CTA002'), (config['WALLET_TOKEN_A'], config['WALLET_TOKEN_B']))}
         if pre_upgrade is not None:
             for account in pre_upgrade:
                 require(pre_upgrade[account]['account'] == before[account]['account'] and
@@ -207,7 +232,7 @@ print('Configuracion preparada; credenciales conservadas o generadas localmente'
         denied = http.get(base + '/api/accounts/CTA001/balance', timeout=10)
         require(denied.status_code == 401, 'Se esperaba 401 sin credencial.')
         ws = websocket.create_connection(f'ws://{args.host}:8080/ws',
-                 header=['Authorization: Bearer ' + tokens[0]], suppress_origin=True, timeout=10,
+                 header=['Authorization: Bearer ' + config['WALLET_TOKEN_A']], suppress_origin=True, timeout=10,
                  http_no_proxy=[args.host])
         try:
             greeting = json.loads(ws.recv())
@@ -269,7 +294,7 @@ print('Configuracion preparada; credenciales conservadas o generadas localmente'
         print('6/6 Reiniciando solo el servicio y verificando persistencia...', flush=True)
         run('systemctl restart billeterax')
         wait_health()
-        after = {account: snapshot(account, token) for account, token in zip(('CTA001', 'CTA002'), tokens)}
+        after = {account: snapshot(account, token) for account, token in zip(('CTA001', 'CTA002'), (config['WALLET_TOKEN_A'], config['WALLET_TOKEN_B']))}
         for account in before:
             require(before[account]['account'] == after[account]['account'] and
                     before[account]['transactions'] == after[account]['transactions'],
@@ -291,8 +316,14 @@ print('Configuracion preparada; credenciales conservadas o generadas localmente'
         report['auth_smoke_user'] = {'username': test_username, 'accountId': test_account, 'balance': 0}
         # The smoke user remains a zero-balance test record. Its random password is not saved.
 
+        if args.gateway_url:
+            print('Comprobando acceso público HTTPS/WSS y dependencia de Debian...', flush=True)
+            from public_access_check import verify_public_access
+            verify_public_access(http, args.gateway_url, origin, test_username, test_password,
+                                 test_account, run, wait_health, tokens, report['checks'])
+            report['public_gateway'] = {'url': args.gateway_url, 'node': 'debian-primary', 'database': 'Debian only'}
         report['accounts'] = {key: value['account'] for key, value in after.items()}
-        report['pending'] = ['Publicación GitHub Pages y prueba HTTPS del túnel', 'Reinicio completo de la VM', 'Perfilado prolongado']
+        report['pending'] = ([] if args.gateway_url else ['Activar/verificar acceso público HTTPS fijo']) + ['Reinicio completo de la VM', 'Perfilado prolongado']
         report['status'] = 'passed'
         print('OK: backend disponible en ' + base + '/. Evidencia: ' + str(evidence))
     except Exception as exc:

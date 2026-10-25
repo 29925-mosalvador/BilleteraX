@@ -61,6 +61,8 @@ Las credenciales estáticas de CTA001/CTA002 se mantienen solo para compatibilid
 ## Estructura
 
 - `backend/`: API, registro/login, sesiones, transacciones, WebSocket y pruebas.
+- `gateway/`: auxiliar público sin base bancaria; cola de mensajes y WebSocket.
+- `protocol/`: mensajes de negocio compartidos entre auxiliar y Debian.
 - `android/`: Compose/Material 3, MVVM, Retrofit/OkHttp, Room y pruebas.
 - `deployment/`: compilación, instalación Debian con respaldo y systemd.
 - `postman/`: colección y entornos sin credenciales privadas.
@@ -114,6 +116,6 @@ La actualización de autenticación fue desplegada el 24 de octubre de 2026 con 
 
 El proyecto incluye un cliente web adaptable con registro/login, saldo, historial, cuatro operaciones y modo claro/oscuro. Comparte las cuentas de Android y la base H2 de Debian; no cambia el requisito de Room del proyecto móvil.
 
-Consulta [la guía de banca web](docs/WEB.md) para actualizar Debian, publicar `web/dist` en GitHub Pages y abrir un túnel HTTPS temporal. La web ya está publicada en [GitHub Pages](https://29925-mosalvador.github.io/BilleteraX/). Para usar las cuentas, abrir el enlace que imprime el túnel HTTPS o configurar su dirección en el acceso. Debian mantiene el backend y H2.
+Consulta [la guía de banca web](docs/WEB.md) y [el acceso desde Internet](docs/ACCESO_INTERNET.md). Pages ya publica la interfaz. Está en preparación la activación de un auxiliar público HTTPS fijo, sin túneles ni cambios del router; Debian seguirá ejecutando las operaciones y guardando H2. El código nuevo pasó las pruebas locales, pero no se declara el acceso nuevo operativo hasta desplegar y verificar el alojamiento y Debian.
 
 ![Banca web conectada a Debian](docs/evidence/web-public.jpg)

@@ -208,3 +208,20 @@ El último instalador aprobó 11 comprobaciones con JAR e637fd9dcb06a909816fb400
 Se cerró la sesión de pruebas y se detuvieron únicamente el túnel y servidores locales del agente. Para demostrar la web: mantener Debian encendido, ejecutar start-web-tunnel.py desde PowerShell del usuario y abrir ABRE LA BANCA WEB. Mantener esa ventana abierta; Ctrl+C cierra el acceso temporal. No hace falta cambiar GitHub cuando cambie el túnel.
 
 La banca web está completada y verificada. Siguen los pendientes académicos anteriores: reinicio completo de VM, pérdida de respuesta posterior al commit Android, perfilado prolongado e informe APA 7 solicitado para más adelante.
+
+
+## Acceso por Internet sin túneles ni router — 25 de octubre de 2026
+
+El usuario exige acceso para cualquier persona desde Internet, login normal sin URL, Debian como principal y única base bancaria, disponibilidad ligada a Debian y sin modificar su router. Rechazó la alternativa limitada a la misma Wi-Fi. Se eligió un auxiliar público con cola en memoria y un agente que consulta mensajes por HTTPS saliente desde Debian. No se usa un proxy de puertos, un túnel ni una copia independiente de la base.
+
+Implementado `gateway/` (Java 21/Spring Boot), `protocol/`, `GatewayAgent` y `GatewayCommandDispatcher`. El agente llama a los servicios transaccionales existentes; no recrea cuentas ni lógica bancaria. Los eventos posteriores al commit y revocaciones llegan al WebSocket público. La cola es temporal y limitada; al faltar el principal durante seis segundos se rechazan accesos/operaciones y se cierran sockets. La conexión automática está desactivada por defecto hasta aprovisionarla.
+
+Se añadió Dockerfile, Blueprint Render con plan free explícito, CI y pruebas. Backend: 33 aprobadas/una omitida; auxiliar: seis aprobadas; web: siete aprobadas. Verificador con dos JAR reales: 15 comprobaciones aprobadas, incluida respuesta HTTP interrumpida después del commit, reinicio del auxiliar y reintento sin duplicar. Evidencia `public-access-local.json`. Se registró una cuenta desechable desde la interfaz local y se comprobó estado En línea sin cuadro de servidor. No se tocó la H2 real de Debian.
+
+El instalador admite `--gateway-url`: pide la clave privada de infraestructura en la terminal, la transfiere por SFTP sin argumentos ni reportes, conserva los secretos previos y respalda la configuración. Incluye HTTPS/CORS/WSS y una interrupción breve del servicio con recuperación en finally. La comprobación local del instalador pasó; aún no se ejecutó este nuevo despliegue contra Debian.
+
+El usuario eligió iniciar sesión en Render desde el navegador en lugar de instalar el plugin, y confirmó que entró en su panel. Se está preparando el servicio gratuito desde el repositorio público; no hay aún URL real verificada. No pedir otra conexión de plugin ni recrear su cuenta. Completar el formulario, guardar el código, y revisar el despliegue concreto antes de cualquier confirmación exigida por las normas del navegador.
+
+Pendiente: publicar la implementación; crear/verificar auxiliar público gratuito; ejecutar instalador Debian con URL/clave reales mediante PowerShell del usuario (la entrada SSH automatizada sigue bloqueada); fijar URL en Pages y Android; probar Internet y caída real de Debian; generar APK compatible sin borrar datos. No afirmar que esta ampliación está en producción hasta demostrar esos pasos. La página estática puede cargar con Debian apagado y Room conserva consulta offline; las operaciones confirmadas requieren Debian.
+
+Guía actual `docs/ACCESO_INTERNET.md`; `docs/WEB.md` reemplaza el procedimiento con túnel. La herramienta antigua queda solo como historial. Mantener los pendientes académicos previos y el informe APA 7 sin redactar.

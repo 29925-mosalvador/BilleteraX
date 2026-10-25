@@ -33,3 +33,8 @@ wallet:
   token-a: ${WALLET_TOKEN_A:}
   token-b: ${WALLET_TOKEN_B:}
   web-origins: ${WALLET_WEB_ORIGINS:https://29925-mosalvador.github.io}
+  gateway:
+    enabled: ${GATEWAY_ENABLED:false}
+    url: ${GATEWAY_URL:}
+    token: ${GATEWAY_AGENT_TOKEN:}
+    node-id: ${GATEWAY_NODE_ID:debian-primary}
