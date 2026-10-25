@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-25T08:02:32.608217+00:00",
+  "host": "192.168.18.76",
+  "topology": "VirtualBox bridged; Windows -> Debian TCP 22/8080",
+  "jar_sha256": "118713ec55a83721b79db5634687cd2950f325b687156b5d10e0dc2d1f519732",
+  "status": "passed",
+  "checks": {
+    "transfer_sha256_and_shell_syntax": true,
+    "health_from_windows": true,
+    "existing_accounts_and_history_preserved_during_upgrade": true,
+    "rest_authorized_and_unauthorized": true,
+    "websocket_authenticated_handshake": true,
+    "registration_and_user_websocket": true,
+    "web_page_and_pages_cors": true,
+    "browser_websocket_single_use_ticket": true,
+    "snapshot_preserved_after_service_restart": true,
+    "user_login_session_and_password_survive_restart": true,
+    "logout_revokes_session": true,
+    "public_https_same_debian_account_and_pages_cors": true,
+    "public_wss_authenticated": true,
+    "public_socket_notified_when_debian_is_offline": true,
+    "public_login_unavailable_without_debian": true,
+    "public_automatic_recovery_after_primary_restart": true
+  },
+  "inspection": "0\nDebianServer\nPRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\nlo               UNKNOWN        127.0.0.1/8 \nenp0s3           UP             192.168.18.76/24 \ndefault via 192.168.18.1 dev enp0s3 proto static metric 100 \n192.168.18.0/24 dev enp0s3 proto kernel scope link src 192.168.18.76 metric 100 \nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        19G  6.5G   12G  37% /",
+  "network_profile": "manual\n192.168.18.76/24\n192.168.18.1",
+  "pre_upgrade_accounts": {
+    "CTA001": {
+      "accountId": "CTA001",
+      "ownerName": "Usuario A",
+      "balance": 326.23,
+      "version": 13
+    },
+    "CTA002": {
+      "accountId": "CTA002",
+      "ownerName": "Usuario B",
+      "balance": 15.0,
+      "version": 9
+    }
+  },
+  "java": "openjdk version \"21.0.12.1\" 2026-08-18\nOpenJDK Runtime Environment (build 21.0.12.1+1-1-deb13u1-Debian)\nOpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-deb13u1-Debian, mixed mode, sharing)",
+  "staging_directory": "/var/tmp/billeterax-deploy.I5hTBykV",
+  "installation": "Respaldo previo a la actualización: /var/lib/billeterax/upgrade-backup.5kkPdTTW\n● billeterax.service - BilleteraX Spring Boot laboratory backend\n     Loaded: loaded (/etc/systemd/system/billeterax.service; enabled; preset: enabled)\n     Active: active (running) since Sun 2026-10-25 03:02:40 -05; 26ms ago\n Invocation: b8a6ed0c6d2341d2a728ffb8b192a8a6\n   Main PID: 5444 ((java))\n      Tasks: 1 (limit: 9447)\n     Memory: 1.7M (peak: 1.7M)\n        CPU: 13ms\n     CGroup: /system.slice/billeterax.service\n             └─5444 \"(java)\"\n\nOct 25 03:02:40 DebianServer systemd[1]: Started billeterax.service - BilleteraX Spring Boot laboratory backend.",
+  "service": "enabled\nactive\nMainPID=5444\nUser=billeterax",
+  "auth_smoke_user": {
+    "username": "check_ec7a6e24f0b7",
+    "accountId": "CTA3296944271",
+    "balance": 0
+  },
+  "public_gateway": {
+    "url": "https://billeterax-access.onrender.com",
+    "node": "debian-primary",
+    "database": "Debian only"
+  },
+  "accounts": {
+    "CTA001": {
+      "accountId": "CTA001",
+      "ownerName": "Usuario A",
+      "balance": 326.23,
+      "version": 13
+    },
+    "CTA002": {
+      "accountId": "CTA002",
+      "ownerName": "Usuario B",
+      "balance": 15.0,
+      "version": 9
+    }
+  },
+  "pending": [
+    "Reinicio completo de la VM",
+    "Perfilado prolongado"
+  ]
+}

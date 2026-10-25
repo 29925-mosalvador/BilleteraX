@@ -15,17 +15,17 @@ Los importes son simulados. Los depósitos de laboratorio añaden saldo sin una 
 
 ## Arquitectura y alojamiento
 
-Por petición del usuario se está sustituyendo el acceso temporal por un auxiliar público HTTPS fijo. Debian conserva Spring Boot y la única base H2 bancaria; recoge mensajes de negocio por conexiones salientes. No se configura el router ni se utilizan túneles de red.
+El acceso público utiliza un auxiliar HTTPS fijo en Render Free, verificado desde Internet. Debian conserva Spring Boot y la única base H2 bancaria; recoge mensajes de negocio por conexiones salientes. No se configura el router ni se utilizan túneles de red.
 
-El código y las pruebas locales están preparados. **La activación real del alojamiento, la conexión de Debian y las direcciones predeterminadas de los clientes siguen pendientes hasta verificar el nuevo servicio público.** La URL actual de Pages distribuye la interfaz; por sí sola no ejecuta el backend.
+**Acceso verificado:** [abrir la banca](https://29925-mosalvador.github.io/BilleteraX/). La interfaz usa automáticamente `https://billeterax-access.onrender.com`; no pide configurar un servidor. La URL de Pages distribuye la interfaz; el auxiliar entrega mensajes al Debian encendido, donde se confirma cada operación.
 
-La configuración, pruebas y límites están en [Acceso desde Internet](ACCESO_INTERNET.md). Una vez activado, los visitantes solo abren la página, se registran o inician sesión. No deben introducir direcciones de servidor. Para la red local sigue disponible `http://192.168.18.76:8080/`.
+La configuración, pruebas y límites están en [Acceso desde Internet](ACCESO_INTERNET.md). Los visitantes solo abren la página, se registran o inician sesión. No deben introducir direcciones de servidor. Para la red local sigue disponible `http://192.168.18.76:8080/`.
 
 `deployment/scripts/start-web-tunnel.py` se conserva únicamente como herramienta de la demostración anterior. No forma parte del nuevo procedimiento. Las evidencias antiguas con túnel describen esa versión, no la disponibilidad del nuevo alojamiento.
 
 ## Publicar la interfaz en GitHub Pages
 
-El workflow `.github/workflows/pages.yml` prueba el cliente y publica `web/dist` en [GitHub Pages](https://29925-mosalvador.github.io/BilleteraX/). Después de verificar el auxiliar real, `config.js` debe indicar su origen HTTPS fijo y `managed:true`. No guardar secretos del agente, contraseñas de usuarios o credenciales SSH en esa configuración pública.
+El workflow `.github/workflows/pages.yml` prueba el cliente y publica `web/dist` en [GitHub Pages](https://29925-mosalvador.github.io/BilleteraX/). `config.js` indica el origen HTTPS fijo verificado y `managed:true`. No guardar secretos del agente, contraseñas de usuarios o credenciales SSH en esa configuración pública.
 
 El mismo cliente se empaqueta dentro del JAR Debian y del auxiliar. Este último genera su configuración de mismo origen; no hay una segunda implementación de la banca.
 
@@ -56,10 +56,10 @@ node --test tests/core.test.js
 node serve.mjs
 ```
 
-Abre `http://127.0.0.1:5173` y elige el backend local en Configurar conexión. `backend/build.gradle.kts` copia ese mismo cliente dentro del JAR durante `processResources`; no hay una segunda implementación.
+Para la banca funcional en desarrollo, abrir la web integrada en el backend (`http://127.0.0.1:8080/` después de iniciarlo). El servidor Node 5173 solo sirve archivos: con la configuración administrada actual no reenvía el API. Para separar ambos procesos durante desarrollo, usar una copia local de `config.js` con la URL del backend y `managed:false`, y permitir explícitamente ese origen en CORS; no publicar ese cambio sobre la configuración de Pages. `backend/build.gradle.kts` copia ese mismo cliente dentro del JAR durante `processResources`; no hay una segunda implementación.
 
 Pruebas backend: `WebAccessTest` cubre CORS, aislamiento, servicio de archivos, WebSocket del navegador y revocación; `SocketTicketsTest` cubre caducidad y consumo concurrente. Las pruebas previas de Android/REST siguen siendo aplicables y se ejecutan en CI cuando cambia `web/**`.
 
 Referencias: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [workflows de Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [WebSocket en el navegador](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/WebSocket).
 
-El APK v1.1.0 publicado sigue siendo compatible. El JAR de esa Release corresponde a la entrega anterior a la banca web; para el backend web usar la compilación actual de `main` o el artefacto backend del workflow actual, y el instalador de esta guía.
+La versión 1.2.0 incluye APK compatible con la firma existente y JAR con esta banca web. Descargar desde Releases; el APK de Actions tiene una firma temporal diferente. Las instalaciones Android anteriores conservan la dirección de servidor guardada; cambiarla una vez a HTTPS público solo después de resolver las operaciones pendientes.

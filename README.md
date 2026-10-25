@@ -13,15 +13,15 @@ GitHub guarda el código, distribuye los instaladores y compila/prueba con Actio
   <img src="docs/evidence/auth-wallet-dark.png" width="230" alt="BilleteraX en modo oscuro">
 </p>
 
-## Usar la aplicación 1.1.0
+## Usar la aplicación 1.2.0
 
-1. Encender DebianServer. El backend ya está actualizado en `http://192.168.18.76:8080/`.
+1. Encender DebianServer en VirtualBox. Su servicio arranca y se conecta al auxiliar público automáticamente; no se necesita otra terminal. Abrir la [banca web](https://29925-mosalvador.github.io/BilleteraX/) o usar Android desde cualquier conexión a Internet.
 2. Instalar el APK nuevo sobre BilleteraX, conservando sus datos. Abrir **Crear cuenta** e indicar nombre, usuario y contraseña. No se solicita correo ni verificación por correo.
 3. Cada usuario recibe un número de cuenta propio y saldo inicial **$0.00**. Depositar un importe de laboratorio para empezar. Las cuentas antiguas CTA001/CTA002 se conservan, pero no se asignan automáticamente a un usuario nuevo.
 4. Para entrar nuevamente, usar el mismo usuario y contraseña. La sesión queda guardada de forma cifrada en Android; la contraseña no se guarda allí. **Perfil → Cerrar sesión** permite cambiar de cuenta.
 5. En **Perfil → Apariencia** elegir **Sistema**, **Claro** u **Oscuro**. En la pantalla de acceso también hay un botón para cambiar el tema y un engranaje para configurar el servidor.
 
-El teléfono y Debian deben poder comunicarse en la misma red. La URL predeterminada es la de Debian. Ver [registro, base de datos y demostración](docs/ACCESO_USUARIOS.md).
+Android nuevo usa `https://billeterax-access.onrender.com/`. Una actualización conserva la URL anterior y Room: resolver las operaciones pendientes y, si se desea acceso por Internet, cambiar la conexión una vez desde el engranaje de acceso. Debian conserva H2 en `/var/lib/billeterax/wallet.mv.db`; no se usan túneles ni cambios del router. Ver [acceso desde Internet](docs/ACCESO_INTERNET.md).
 
 ## Desarrollar en Windows
 
@@ -110,12 +110,12 @@ La reconexión usa espera exponencial con variación hasta 30 segundos, ping, co
 - [Resultados verificables](docs/testing/RESULTADOS.md)
 - [Rúbrica](docs/testing/RUBRICA.md)
 
-La actualización de autenticación fue desplegada el 24 de octubre de 2026 con respaldo y conservación de cuentas/historial. Evidencia fija: `docs/evidence/debian-auth-upgrade.json`. Los resultados actuales y sus límites figuran en la guía de pruebas; las evidencias del 17 de octubre describen la versión anterior. Reinicio completo de VM, pérdida de respuesta después del commit, perfilado prolongado siguen pendientes. El código, el APK de la versión 1.1.0 y las pruebas automatizadas ya están publicados en GitHub. El informe APA 7 no se redactó por solicitud previa.
+La actualización de autenticación fue desplegada el 24 de octubre de 2026 con respaldo y conservación de cuentas/historial. Evidencia fija: `docs/evidence/debian-auth-upgrade.json`. Los resultados actuales y sus límites figuran en la guía de pruebas; las evidencias del 17 de octubre describen la versión anterior. Reinicio completo de VM, pérdida de respuesta después del commit en Android y perfilado prolongado siguen pendientes; el caso de respuesta perdida del auxiliar público ya pasó en la integración Java. El código y las pruebas automatizadas están publicados en GitHub. La versión 1.2.0 añade el acceso público y conserva la firma Android existente. El informe APA 7 no se redactó por solicitud previa.
 
 ## Banca web adicional
 
 El proyecto incluye un cliente web adaptable con registro/login, saldo, historial, cuatro operaciones y modo claro/oscuro. Comparte las cuentas de Android y la base H2 de Debian; no cambia el requisito de Room del proyecto móvil.
 
-Consulta [la guía de banca web](docs/WEB.md) y [el acceso desde Internet](docs/ACCESO_INTERNET.md). Pages ya publica la interfaz. Está en preparación la activación de un auxiliar público HTTPS fijo, sin túneles ni cambios del router; Debian seguirá ejecutando las operaciones y guardando H2. El código nuevo pasó las pruebas locales, pero no se declara el acceso nuevo operativo hasta desplegar y verificar el alojamiento y Debian.
+Consulta [la guía de banca web](docs/WEB.md) y [el acceso desde Internet](docs/ACCESO_INTERNET.md). Pages ya publica la interfaz. El auxiliar público HTTPS fijo está activo y pasó las pruebas reales contra Debian, sin túneles ni cambios del router. Debian ejecuta las operaciones y guarda H2. Si se apaga, el acceso bancario se interrumpe; Pages puede seguir mostrando la pantalla de entrada y Android mantiene la consulta Room sin conexión. Render Free puede tardar en arrancar tras inactividad.
 
-![Banca web conectada a Debian](docs/evidence/web-public.jpg)
+![Banca web conectada a Debian](docs/evidence/public-access-internet-ui.png)

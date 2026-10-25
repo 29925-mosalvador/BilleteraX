@@ -15,7 +15,7 @@
     "android_lint_errors": 0,
     "android_lint_warnings": 20,
     "existing_certificate_preserved": true,
-    "linux_ci_with_real_message_integration": "https://github.com/29925-mosalvador/BilleteraX/actions/runs/40170043362"
+    "linux_ci_with_real_message_integration": "https://github.com/29925-mosalvador/BilleteraX/actions/runs/40174054842"
   },
   "limitations": [
     "This build report does not prove Debian deployment or a public banking session",

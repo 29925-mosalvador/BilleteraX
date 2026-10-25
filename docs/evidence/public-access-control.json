@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-25T08:02:58.545973+00:00",
+  "status": "passed",
+  "source_commit": "9fd943bf2b195c7821b07cff16498bc4dd235fc9",
+  "public_url": "https://billeterax-access.onrender.com",
+  "checks": {
+    "render_latest_deploy_live": true,
+    "public_pages_app_js_identical_to_git_blob": true,
+    "public_pages_app_js_sha256": "ca930651436d21ffbdc15f8b90ffa5b683ce067ec86ce24ce741b292cacdb152",
+    "standard_node_websocket_connected": true,
+    "logout_directly_on_debian_http_status": 204,
+    "session_revoked_notice_received": true,
+    "client_close_code": 1000,
+    "client_close_was_clean": true,
+    "browser_reload_preserved_same_account_balance_and_two_transactions": true,
+    "browser_balance": 3.0,
+    "public_browser_login_after_final_debian_update": true,
+    "final_debian_deployment_checks_passed": 16,
+    "final_debian_jar_sha256": "118713ec55a83721b79db5634687cd2950f325b687156b5d10e0dc2d1f519732"
+  },
+  "scope": "Synthetic accounts only. Node standard WebSocket and real Pages UI. This is not an Android hardware execution."
+}

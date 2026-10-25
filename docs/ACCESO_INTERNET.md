@@ -1,12 +1,14 @@
 # Acceso a BilleteraX desde Internet
 
-## Estado de esta ampliación
+## Estado verificado
 
-El auxiliar público ya se creó en Render Free y responde en **https://billeterax-access.onrender.com/**. HTTPS, página, configuración automática, CORS de Pages y rechazo de acceso sin Debian están comprobados en `public-access-host.json`. El código y la integración real de dos procesos Java también aprobaron en GitHub Actions.
+La banca pública funciona en [GitHub Pages](https://29925-mosalvador.github.io/BilleteraX/) con el auxiliar HTTPS fijo [billeterax-access.onrender.com](https://billeterax-access.onrender.com/), alojado en **Render Free**. El visitante solo se registra o inicia sesión; no introduce URL, claves de infraestructura ni túneles.
 
-Debian ya fue actualizado y su agente está conectado automáticamente. El instalador aprobó HTTPS/WSS con las mismas cuentas, conservación de la base y rechazo/recuperación del login al detener/iniciar BilleteraX; evidencia `debian-public-upgrade.json`.
+Debian sigue ejecutando las operaciones y conserva la única base H2 bancaria. La prueba real por Internet aprobó 16 comprobaciones: registro/login, cuatro operaciones, aislamiento, idempotencia, notificaciones WSS, transferencia entrante desde Debian, coincidencia de saldo/historial y revocación. Ver `public-access-internet.json`. La interfaz real mostró depósito y transferencia entrante sin pulsar Actualizar; captura `public-access-internet-ui.png`.
 
-La prueba desde Internet aprobó registro/login, cuatro operaciones, idempotencia, transferencia entrante y coincidencia con H2. Se está revisando un detalle del cierre físico WSS tras logout a través de Render; la sesión REST sí queda revocada y la conexión no recibió eventos posteriores en la prueba. No anunciar esta última comprobación como aprobada hasta resolverla. Los valores fijos de Pages y Android 1.2.0 ya están preparados; falta la publicación final del APK y revisión de interfaz.
+Se corrigió la pérdida del frame de cierre WSS a través del intermediario con avisos explícitos de sesión/servidor. Un cliente WebSocket estándar recibió SESSION_REVOKED y cerró limpiamente con código 1000; evidencia `public-access-control.json`. El reporte inicial `public-access-internet-initial.json` conserva el diagnóstico anterior, no el estado actual.
+
+La actualización final del JAR aprobó 16 comprobaciones, conservando cuentas/historial y verificando el aviso WSS SERVER_UNAVAILABLE, el rechazo del login al detener BilleteraX y la recuperación automática; evidencia `debian-public-final.json`. La [versión 1.2.0](https://github.com/29925-mosalvador/BilleteraX/releases/tag/v1.2.0) está publicada con APK y JAR. Las nuevas instalaciones de Android 1.2.0 usan HTTPS público. Una actualización conserva la configuración anterior y los datos locales; ver las instrucciones siguientes.
 
 ## Funcionamiento
 
@@ -30,10 +32,19 @@ Debian inicia automáticamente la conexión saliente cuando arranca el servicio 
 
 La disponibilidad del principal se comprueba con mensajes periódicos: tras unos seis segundos sin Debian, el auxiliar rechaza accesos y operaciones con HTTP 503 y cierra los WebSockets. La interfaz estática de GitHub puede cargar aunque Debian esté apagado; no puede iniciar sesión ni confirmar movimientos. Android mantiene la consulta local de Room, como exige el profesor.
 
-## Aprovisionar una vez
+## Uso diario
+
+1. Encender DebianServer en VirtualBox y esperar que el servicio arranque. Windows debe seguir encendido mientras aloje la VM. No hay que ejecutar otro programa ni mantener una terminal abierta.
+2. Abrir la web de GitHub Pages desde cualquier conexión a Internet, o instalar el APK 1.2.0 desde Releases. Usar el mismo usuario y contraseña en ambos clientes.
+3. Si Android ya conservaba la dirección LAN, resolver primero las operaciones pendientes en ese servidor. Después, desde el engranaje de acceso, guardar `https://billeterax-access.onrender.com/` e iniciar sesión otra vez. No desinstalar ni borrar Room.
+4. Apagar Debian impide iniciar sesión o confirmar operaciones por Internet tras el plazo de detección. La página estática puede seguir cargando; Android conserva la consulta local sin conexión.
+
+## Aprovisionamiento inicial ya realizado
+
+Estos pasos documentan cómo reproducir la instalación; no se repiten para cada uso.
 
 1. Conectar Render con la cuenta del propietario. Crear el servicio desde `render.yaml`, plan **free**, Dockerfile `gateway/Dockerfile`, contexto raíz. No se necesita una base Render ni un disco persistente. No seleccionar planes de pago.
-2. La dirección asignada es `https://billeterax-access.onrender.com`. En el panel manual se necesita una clave de al menos 32 caracteres; generar 64 en la propia terminal con `python -c "import secrets; print(secrets.token_urlsafe(48))"` y guardarla personalmente en Environment → GATEWAY_AGENT_TOKEN. La política del navegador exige que el usuario introduzca y guarde los cambios de credenciales. Conservar la dirección HTTPS fija asignada al servicio. El Blueprint genera `GATEWAY_AGENT_TOKEN`, una clave privada para el agente, distinta de las contraseñas de los usuarios. No publicarla en GitHub ni enviarla por chat.
+2. La dirección asignada es `https://billeterax-access.onrender.com`. En el panel manual se necesita una clave de al menos 32 caracteres; generar 64 en la propia terminal con `python -c "import secrets; print(secrets.token_urlsafe(48))"` y guardarla personalmente en Environment → GATEWAY_AGENT_TOKEN. Conservar la dirección HTTPS fija asignada al servicio. El Blueprint genera `GATEWAY_AGENT_TOKEN`, una clave privada para el agente, distinta de las contraseñas de los usuarios. No publicarla en GitHub ni enviarla por chat.
 3. Compilar el backend actual y ejecutar el instalador en PowerShell:
 
 ```powershell
@@ -46,7 +57,17 @@ Introducir la contraseña SSH y la clave del auxiliar únicamente cuando las sol
 5. Después de verificar el servicio real, fijar `web/dist/config.js` con `{apiBase:"https://DIRECCION-REAL",managed:true}` y publicar Pages. Ese modo ignora las direcciones antiguas guardadas y los parámetros `servidor`, y oculta el botón de configurar conexión. El visitante solo ve registro/login. La web servida directamente por el auxiliar ya configura su mismo origen automáticamente.
 6. Fijar esa misma dirección HTTPS como valor predeterminado de Android y generar un APK con la firma existente. No desinstalar ni borrar Room. Revisar las operaciones pendientes antes de cambiar una configuración guardada de servidor; no migrarlas silenciosamente a otra URL.
 
-Los valores predeterminados de los clientes ya están preparados con la dirección real; comprobar su publicación y uso después de activar Debian. Las configuraciones que Android ya hubiera guardado se conservan: no se cambia la URL de operaciones pendientes de forma automática.
+Los valores predeterminados de los clientes usan la dirección real verificada. Las configuraciones que Android ya hubiera guardado se conservan: no se cambia la URL de operaciones pendientes de forma automática.
+
+## Actualizar Debian conservando la configuración
+
+Después de compilar un JAR nuevo, ejecutar:
+
+```powershell
+& 'C:\Users\matsa\AppData\Local\Programs\Python\Python312\python.exe' 'C:\Proyectos\BilleteraX\deployment\scripts\deploy-debian.py' --skip-packages
+```
+
+Sin `--gateway-url`, el instalador reutiliza la URL y la clave guardadas. Solo pide la contraseña SSH en la terminal. Respalda H2/JAR/configuración, conserva usuarios e historial y comprueba HTTPS, WSS y recuperación; no volver a introducir ni publicar la clave del auxiliar.
 
 ## Pruebas reproducibles
 

@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-25T07:53:04.529194+00:00",
+  "status": "passed",
+  "public_url": "https://billeterax-access.onrender.com",
+  "primary": "Debian 192.168.18.76",
+  "checks": {
+    "principal Debian conectado al auxiliar público": true,
+    "registro y login normal desde Internet": true,
+    "cuenta pública disponible en el Debian original": true,
+    "no se consultan cuentas ajenas": true,
+    "WSS público con cabecera compatible con Android": true,
+    "WSS público del navegador con pase autenticado": true,
+    "pase WSS público de un solo uso": true,
+    "mismo UUID no duplica depósito público": true,
+    "rechazos no alteran el saldo": true,
+    "WSS no filtra eventos de otra cuenta": true,
+    "transferencia desde Debian llega a Internet sin Actualizar": true,
+    "notificación WSS corresponde al movimiento confirmado en Debian": true,
+    "saldo e historial públicos coinciden con H2 en Debian": true,
+    "cuatro operaciones públicas y transferencia entrante correctas": true,
+    "logout en Debian notifica y cierra WSS público": true,
+    "sesión pública revocada por Debian": true
+  },
+  "lab_account": {
+    "accountId": "CTA9704528871",
+    "balance": 18,
+    "transactions": 5
+  },
+  "limits": [
+    "Synthetic lab money, only newly registered test accounts",
+    "This check does not execute an Android device",
+    "Primary off/on is checked by the SSH deployer separately"
+  ]
+}

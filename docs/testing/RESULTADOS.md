@@ -121,12 +121,11 @@ El usuario ejecutó el verificador el 17 de octubre de 2026 a las 21:44–21:45 
 
 | Prueba | Motivo y procedimiento |
 |---|---|
-| Perder respuesta monetaria después del commit | La caída antes del envío y su recuperación ya pasaron; falta impedir la respuesta de una operación confirmada y comprobar conciliación/reintento |
+| Perder respuesta monetaria después del commit en Android | La caída antes del envío y su recuperación ya pasaron en Android; el caso de respuesta perdida del auxiliar público pasó con dos JAR reales. Falta repetirlo en dispositivo móvil |
 | Sincronizar movimientos perdidos durante una caída | Código de conciliación implementado; falta demostrar el escenario completo de caída |
 | Retiro y servicios desde UI contra Debian | Ambos formularios pasaron contra Windows; en Debian se verificaron depósito y transferencia |
 | Apagado y reinicio completo de Debian | systemd y reinicio del servicio ya verificados; falta reiniciar la VM |
 | Rendimiento sostenido y ANR | Falta una sesión prolongada con Android Studio Profiler/StrictMode |
-| Publicación del repositorio académico | Repositorio Git local inicializado; sin remoto configurado ni publicación realizada |
 
 No asignar una nota de la rúbrica a partir de este archivo. La defensa puede usar las evidencias Debian aprobadas y debe distinguir los casos pendientes.
 
@@ -160,3 +159,20 @@ CI Linux del auxiliar y la integración de mensajes aprobó en [40170043362](htt
 
 
 Se reprodujo una diferencia del cierre WSS a través del intermediario: el servidor revocaba la sesión y cerraba su conexión, pero el cliente no observaba el frame de cierre. Se añadió un aviso de aplicación previo (SESSION_REVOKED/SERVER_UNAVAILABLE) y cierre/reconexión explícitos en web y Android. Auxiliar: seis pruebas aprobadas con aviso antes del cierre y cabeceras HTTPS; Android: cuatro unitarias aprobadas, incluidas dos pruebas de conexión real con MockWebServer sin cierre iniciado por el servidor. La integración local de 15 comprobaciones volvió a aprobar. Pendiente verificar estos avisos en Render y en la actualización final de Debian; el resultado público inicial se conserva como partial.
+
+
+### Acceso público real y cierre de sesión: aprobado
+
+El auxiliar Render está activo con el código `9fd943bf2b195c7821b07cff16498bc4dd235fc9`. [CI 40174054842](https://github.com/29925-mosalvador/BilleteraX/actions/runs/40174054842) y [Pages 40174054777](https://github.com/29925-mosalvador/BilleteraX/actions/runs/40174054777) aprobaron. El JavaScript público coincide byte a byte con el blob Git de ese código; la diferencia inicial con el archivo local era la normalización de fin de línea.
+
+`public-access-internet.json` registra 16 comprobaciones reales aprobadas: registro y login públicos, misma cuenta en Debian, aislamiento, WSS con Bearer nativo y pase de navegador, pase de un uso, UUID sin duplicar, rechazos sin alterar saldo, cuatro operaciones y transferencia entrante desde Debian. El saldo final de laboratorio fue 18.00 y cinco movimientos, iguales por LAN y por Internet. Solo se crearon cuentas nuevas con dinero simulado.
+
+La revocación desde Debian envió SESSION_REVOKED al WSS público. Además, un cliente WebSocket estándar de Node recibió ese aviso y cerró limpiamente con código 1000 (`public-access-control.json`). El reporte anterior partial permanece como diagnóstico histórico, ya resuelto. El servidor sigue rechazando la sesión revocada con HTTP 401.
+
+La interfaz real de Pages registró una cuenta sin pedir servidor, mostró depósito 2.00 y transferencia entrante 1.00 desde Debian sin Actualizar (saldo 3.00, dos movimientos). Recargar mantuvo esos datos, En línea y la cuenta correcta; después se cerró su sesión. Captura: `public-access-internet-ui.png`.
+
+`debian-public-upgrade.json` prueba el despliegue del agente, conservación de la H2, mismo usuario por HTTPS, rechazo 503 al detener solo BilleteraX y recuperación automática. La ejecución final aprobó las 16 comprobaciones con JAR SHA-256 118713ec55a83721b79db5634687cd2950f325b687156b5d10e0dc2d1f519732, incluido SERVER_UNAVAILABLE (`debian-public-final.json`). Después se inició sesión otra vez desde Pages y se conservaron saldo 3.00 y dos movimientos de la cuenta de interfaz. No confundir la caída del servicio comprobada con un reinicio completo de la VM, todavía pendiente.
+
+La compilación final 1.2.0 conserva la firma Android y tiene cuatro unitarias aprobadas, incluidos los avisos de sesión/servidor; lint 0 errores y 20 avisos. El AVD no pudo arrancar por falta de aceleración del hipervisor: no se cambió la virtualización de Windows ni se atribuye una nueva ejecución en teléfono. El usuario había confirmado el funcionamiento de la versión anterior en su móvil; esta versión necesita esa nueva comprobación de hardware.
+
+La versión [v1.2.0](https://github.com/29925-mosalvador/BilleteraX/releases/tag/v1.2.0) se publicó sobre el código probado 9fd943b. Incluye cuatro archivos con los hashes indicados en la evidencia de compilación y en SHA256SUMS.txt; el APK conserva la firma existente. La prueba de descarga se registra en `public-access-release.json`.

@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-25T08:08:54.076623+00:00",
+  "status": "passed",
+  "release": "https://github.com/29925-mosalvador/BilleteraX/releases/tag/v1.2.0",
+  "tag": "v1.2.0",
+  "source_commit": "9fd943bf2b195c7821b07cff16498bc4dd235fc9",
+  "draft": false,
+  "verification": "GitHub uploaded-asset SHA-256 digest and public HTTP download prefix; not a second full-file download.",
+  "assets": [
+    {
+      "name": "BilleteraX-1.2.0.apk",
+      "bytes": 19555164,
+      "sha256": "ab41803d92fdb58e28287e606bedaf33425537f22fb5bcc627d470a6e5c81902",
+      "github_asset_digest_matches_local": true,
+      "public_download_status": 206,
+      "public_download_prefix_matches_local": true
+    },
+    {
+      "name": "billeterax-1.2.0.jar",
+      "bytes": 59379321,
+      "sha256": "118713ec55a83721b79db5634687cd2950f325b687156b5d10e0dc2d1f519732",
+      "github_asset_digest_matches_local": true,
+      "public_download_status": 206,
+      "public_download_prefix_matches_local": true
+    },
+    {
+      "name": "INSTRUCCIONES.md",
+      "bytes": 2052,
+      "sha256": "cc9b850785d28af9ad1538ba8749feca1c97b56695b48531a2425cf3cf779ce9",
+      "github_asset_digest_matches_local": true,
+      "public_download_status": 206,
+      "public_download_prefix_matches_local": true
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 260,
+      "sha256": "00f7876de8b1a421f01b07bb9ba82f42bd5f50b4c232a6ee8543690944e6b06c",
+      "github_asset_digest_matches_local": true,
+      "public_download_status": 206,
+      "public_download_prefix_matches_local": true
+    }
+  ],
+  "limits": [
+    "Android installation on a phone remains a separate check."
+  ]
+}
