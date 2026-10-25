@@ -14,7 +14,7 @@ Fuente: `PROYECTO FINAL DE LA UC 1.docx`, proporcionado por el usuario. La rúbr
 
 - Código fuente Android y backend: implementado y organizado.
 - APK: compilado, con firma de depuración para laboratorio; la versión de distribución requiere firma propia.
-- Repositorio: Git local preparado. Falta configurar y publicar un remoto para obtener el enlace académico.
+- Repositorio: público en https://github.com/29925-mosalvador/BilleteraX. APK/JAR y hashes publicados en Releases v1.1.0. GitHub Actions aprobó backend y Android en la ejecución 40153217533.
 - Defensa: guía técnica y colección Postman incluidas. Fecha indicada: 29 de octubre de 2026.
 - Informe APA 7: deliberadamente pendiente, conforme a la solicitud de no redactarlo todavía.
 - Debian/VirtualBox: desplegado y conectado a Android. Servicio activo/habilitado, reinicio del servicio y recuperación aprobados; reinicio completo de VM pendiente.
@@ -24,3 +24,7 @@ Evidencias actuales: `docs/evidence/android-debian-verification.json`, `android-
 ## Actualización del 24 de octubre
 
 Registro/login sin correo y apariencia son mejoras solicitadas por el usuario. Se mantienen Android/Kotlin, Room, REST, WebSocket, corrutinas y backend Spring Boot en Debian. Usuarios, contraseñas con hash y sesiones se guardan en la H2 existente; Room sigue cumpliendo su función local. Esto no sustituye los criterios del profesor ni implica una nota. Los resultados nuevos están separados en `RESULTADOS.md`; el APK 1.1.0 aún debe instalarse en el teléfono del usuario para comprobar esta versión allí.
+
+## Publicación comprobada el 24 de octubre
+
+Código, APK instalable y JAR disponibles en GitHub. Se verificaron las cuatro descargas de Releases contra sus hashes locales. El workflow compila y prueba backend/Android; no ejecuta la app como web ni sustituye la defensa con Postman y WebSocket. Evidencia: docs/evidence/github-publication.json; ejecución https://github.com/29925-mosalvador/BilleteraX/actions/runs/40153217533. El informe APA 7 y las pruebas académicas pendientes mantienen su alcance anterior.

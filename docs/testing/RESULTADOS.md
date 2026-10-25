@@ -2,6 +2,14 @@
 
 Actualizado: 24 de octubre de 2026 (America/Guayaquil). La siguiente tabla corresponde a 1.1.0; las secciones históricas posteriores conservan las evidencias de la versión anterior.
 
+## Compilación real en GitHub Actions y publicación
+
+La ejecución https://github.com/29925-mosalvador/BilleteraX/actions/runs/40153217533 finalizó con success en ambos jobs: backend Java 21 (pruebas y bootJar) y Android (APK, compilación de instrumentación, pruebas unitarias y lint). Commit de código comprobado: 322cdd743ffe5894805da40c70a9ac1aa81fef1b. Las modificaciones posteriores de documentación no cambian Android/backend. No confundir compilar instrumentación en CI con ejecutarla en un dispositivo.
+
+El primer intento de Actions falló porque sdkmanager no estaba en PATH. Se corrigió usando su ruta bajo ANDROID_HOME y se repitió el workflow completo con resultado aprobado. Se conservó el código funcional.
+
+Publicación: https://github.com/29925-mosalvador/BilleteraX/releases/tag/v1.1.0. APK, JAR, instrucciones y SHA256SUMS.txt están uploaded, con tamaños y hashes iguales a los archivos preparados localmente. El APK de Releases mantiene la firma debug local verificada; el APK de CI usa la firma temporal del runner. Evidencia estructurada: docs/evidence/github-publication.json.
+
 ## Registro, sesiones y temas: versión 1.1.0
 
 | Comprobación | Resultado real | Evidencia en docs/evidence |
