@@ -48,7 +48,7 @@ Se entregaron APK, fuentes, JAR, despliegue, guías y hashes actualizados en la 
 1. Probar pérdida de respuesta después del commit: confirmar primero el asiento en Debian, impedir que Android reciba la respuesta y comprobar conciliación/reintento sin duplicados. La caída antes del envío y recuperación ya están demostradas; no sustituyen este caso.
 2. Verificar reinicio completo de la VM e inicio automático con los mismos saldos/historial. El reinicio del servicio Debian ya se probó; no equivale a reiniciar el sistema operativo.
 3. Completar movimientos recibidos durante desconexión y los formularios de retiro/servicios contra Debian (ya probados contra Windows).
-4. Completar perfilado prolongado y publicar el repositorio académico cuando se disponga del remoto autorizado. No redactar todavía el informe APA 7.
+4. Completar perfilado prolongado. El repositorio académico ya está publicado en GitHub. No redactar todavía el informe APA 7.
 
 El bloqueo histórico de ADB y el error de firma quedaron superados. El Pixel del usuario ejecutó correctamente la instrumentación actual y la recuperación ante caída del servicio Debian.
 
@@ -153,10 +153,16 @@ Se amplió `docs/DEFENSA.md` a petición del usuario: guion de exposición, ubic
 
 Leer este archivo, `docs/testing/RESULTADOS.md` y `docs/testing/RUBRICA.md`; comprobar procesos, archivos y cambios antes de actuar. Continuar con la primera validación pendiente que permita el entorno. No ejecutar los generadores iniciales de código ni recrear la arquitectura. Actualizar este archivo después de cada avance o cambio de bloqueo.
 
-## Publicación GitHub del 24 de octubre en curso
+## Publicación GitHub del 24 de octubre completada
 
 Se revisó PROYECTO FINAL DE LA UC 1 (5).docx: pide enlace al proyecto Android Studio, APK y defensa móvil/Postman con WebSocket; no exige una app web. El usuario confirmó cuenta 29925-mosalvador y visibilidad pública. Se creó el repositorio vacío https://github.com/29925-mosalvador/BilleteraX desde la sesión iniciada por el usuario.
 
-Se añadió workflow de compilación/pruebas Java 21 y Android, validado con actionlint. Se ampliaron exclusiones de bases locales, claves, binarios y caché Python. GitHub Pages no ejecutará Spring Boot ni APK; Debian conserva backend/H2. El APK de Releases usará el archivo local probado con firma compatible. El APK de CI tiene firma temporal del runner; no usarlo para reemplazar la instalación conservando datos.
+Se añadió workflow de compilación/pruebas Java 21 y Android, validado con actionlint. Se ampliaron exclusiones de bases locales, claves, binarios y caché Python. GitHub Pages no ejecutará Spring Boot ni APK; Debian conserva backend/H2. El APK de Releases es el archivo local probado con firma compatible. El APK de CI tiene firma temporal del runner; no usarlo para reemplazar la instalación conservando datos.
 
-Pendiente en este punto: auditar archivos, crear primer commit, subir fuentes, comprobar ejecución real de Actions y publicar APK/JAR con hashes. La publicación se considera terminada solo después de verificar estos resultados. No se han expuesto credenciales ni bases. El repositorio local está en main sin commits previos; safe.directory se aplica por comando por la propiedad de la carpeta del sandbox, sin cambiar la confianza global.
+Publicación verificada: fuentes públicas en https://github.com/29925-mosalvador/BilleteraX; primer commit 7e54962. El usuario completó el push desde PowerShell porque el entorno aislado bloqueó Git Credential Manager/Git Bash. Se corrigió después la ruta de sdkmanager en el workflow mediante GitHub y se sincronizó el checkout local sin reescribir historia.
+
+GitHub Actions aprobó backend Java 21 y Android (compilación de app y pruebas, unitarias y lint) en https://github.com/29925-mosalvador/BilleteraX/actions/runs/40153217533, commit 322cdd743ffe5894805da40c70a9ac1aa81fef1b. El primer intento falló por sdkmanager fuera del PATH; la corrección usa su ruta bajo ANDROID_HOME. Las pruebas de instrumentación se compilan en CI; las ejecuciones contra Debian son evidencias separadas.
+
+Versión pública: https://github.com/29925-mosalvador/BilleteraX/releases/tag/v1.1.0. Incluye BilleteraX-1.1.0.apk, billeterax-1.1.0.jar, INSTRUCCIONES.md y SHA256SUMS.txt. Se comprobaron tamaños y hashes de los cuatro archivos publicados. No se subieron bases reales, contraseñas ni claves privadas. El APK de la versión conserva SHA-256 a6e0cee82b4b45babbc8ae0ceeb182f2e7aaad341c18228c5596191cdf34404b.
+
+GitHub distribuye, compila y prueba; Android ejecuta la app y Debian mantiene Spring Boot/H2. No se abrió el backend a Internet ni se cambió la arquitectura. Siguientes pruebas académicas pendientes: reinicio completo de VM, respuesta perdida después del commit, eventos durante desconexión y perfilado prolongado; informe APA 7 sigue pendiente por solicitud previa.
